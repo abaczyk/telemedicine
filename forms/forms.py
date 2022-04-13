@@ -55,12 +55,92 @@ class GeneralForm(forms.Form):
             'whoIsRespondent',
 
             FormActions(
-                Submit('goNext', 'Przejdź dalej', css_class='btn-default'), #TODO opracować przechodzenie do innych stron
+                Submit('goNext', 'Przejdź dalej', css_class='btn-default'),
+                # TODO opracować przechodzenie do innych stron
             )
         )
 
+
 class PatientForm(forms.Form):
-    name = forms.CharField()
+    options = [('tak', 'Tak'), ('nie', 'Nie')]
+    usePOZ = forms.ChoiceField(label='Czy korzysta Pan/Pani z Podstawowej Opieki Zdrowotnej?',
+                               choices=options,
+                               widget=forms.RadioSelect)
+
+    freqOfVisits = forms.ChoiceField(label='Czy wizyty w POZ są:',
+                                     choices=[('regularne', 'Regularne (5-6 razy w roku)')],
+                                     widget=forms.RadioSelect)
+
+    isPunctual = forms.ChoiceField(label='Czy umawiając się na teleporadę pamiętał/a Pan/Pani o punktualności?',
+                                   choices=options,
+                                   widget=forms.RadioSelect)
+
+    correctDateOfEConsultation = forms.ChoiceField(label='Czy teleporada odbyła się w terminie zgodnym z wyznaczonym '
+                                                         'przy rejestracji terminem?',
+                                                   choices=options,
+                                                   widget=forms.RadioSelect)
+
+    isProblemResolved = forms.ChoiceField(label='Czy problem zdrowotny zgłoszony przez Pana/Panią drogą teleporady '
+                                                'został rozwiązany?',
+                                          choices=options,
+                                          widget=forms.RadioSelect)
+
+    wasVisitProposed = forms.ChoiceField(label='Czy w sytuacji, gdy teleporada nie rozwiązała w pełni Pana/Pani '
+                                               'problemu zdrowotnego zaoferowano możliwość wizyty osobistej?',
+                                         choices=options,
+                                         widget=forms.RadioSelect)
+
+    areInstructionsClear = forms.ChoiceField(label='Czy lekarz w sposób jasny i zrozumiały udzielił Panu/Pani '
+                                                   'informacji na temat problemu zdrowotnego?',
+                                             choices=options,
+                                             widget=forms.RadioSelect)
+
+    purposeOfEConsultation = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
+                                                       label='W jakim celu zazwyczaj korzystał/a Pan/Pani z teleporady?',
+                                               choices=[('prescription', 'przedłużenie recepty na leki stałe,'),
+                                                        ('consultOfTestResults', 'konsultacja wyników badań,'),
+                                                        ('referralToSpecialist',
+                                                         'otrzymanie skierowania do lekarza specjalisty,'),
+                                                        ('generalConsultation',
+                                                         'omówienie aktualnego stanu swojego zdrowia.')])
+
+    useOfETools = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
+                                            label='Czy za pomocą teleporady otrzymał/a Pan/Pani:',
+                                    choices=[('e-sickLeave', 'e-zwolnienie,'),
+                                             ('e-presctiption', 'e-receptę,'),
+                                             ('e-referral', 'e-skierowanie?')])
+
+    preparationBeforeConsultation = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
+                                                              label='Czy przygotował Pan/Pani do rozmowy z lekarzem: ',
+                                                              choices=[('PESEL', 'PESEL do identyfikacji tożsamości,'),
+                                                                       ('penAndPaper', 'kartkę i długopis,'),
+                                                                       ('self-controlJournal',
+                                                                        'dzienniczek samokontroli,'),
+                                                                       ('testResults', 'wyniki badań,'),
+                                                                       ('listOfMedicine', 'listę leków,'),
+                                                                       ('listOfQuestionsToDoctor',
+                                                                        'spis pytań do lekarza.')])
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper
+        self.helper.form_method = 'post'
+
+        self.helper.layout = Layout(
+            'usePOZ',
+            'freqOfVisits',
+            'correctDateOfEConsultation',
+            'isProblemResolved',
+            'wasVisitProposed',
+            'areInstructionsClear',
+            'purposeOfEConsultation',
+            'useOfETools',
+            'preparationBeforeConsultation',
+
+            FormActions(
+                Submit('goNext', 'Przejdź dalej', css_class='btn-default'),
+            )
+        )
 
 
 class DoctorForm(forms.Form):

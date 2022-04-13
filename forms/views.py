@@ -36,6 +36,7 @@ def patient(request):
 
     return render(request, 'forms.html', {'form': form})
 
+
 def doctor(request):
     if request.method == 'POST':
         form = DoctorForm(request.POST)
