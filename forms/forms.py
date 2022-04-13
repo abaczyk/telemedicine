@@ -1,7 +1,8 @@
 from crispy_forms.bootstrap import FormActions
 from django import forms
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit
+from crispy_forms.layout import Layout, Submit, Button
+from django.http import HttpResponseRedirect
 
 
 class Main(forms.Form):
@@ -11,7 +12,7 @@ class Main(forms.Form):
         self.helper.form_method = 'post'
 
         self.helper.layout = Layout(
-            Submit('goToForm', 'Przejdź do ankiety')
+            Button('goToForm', 'Przejdź do ankiety')
         )
 
 
@@ -62,7 +63,7 @@ class GeneralForm(forms.Form):
 
 
 class PatientForm(forms.Form):
-    options = [('tak', 'Tak'), ('nie', 'Nie')]
+    options = [('yes', 'Tak'), ('no', 'Nie')]
     usePOZ = forms.ChoiceField(label='Czy korzysta Pan/Pani z Podstawowej Opieki Zdrowotnej?',
                                choices=options,
                                widget=forms.RadioSelect)
@@ -97,18 +98,18 @@ class PatientForm(forms.Form):
 
     purposeOfEConsultation = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
                                                        label='W jakim celu zazwyczaj korzystał/a Pan/Pani z teleporady?',
-                                               choices=[('prescription', 'przedłużenie recepty na leki stałe,'),
-                                                        ('consultOfTestResults', 'konsultacja wyników badań,'),
-                                                        ('referralToSpecialist',
-                                                         'otrzymanie skierowania do lekarza specjalisty,'),
-                                                        ('generalConsultation',
-                                                         'omówienie aktualnego stanu swojego zdrowia.')])
+                                                       choices=[('prescription', 'przedłużenie recepty na leki stałe,'),
+                                                                ('consultOfTestResults', 'konsultacja wyników badań,'),
+                                                                ('referralToSpecialist',
+                                                                 'otrzymanie skierowania do lekarza specjalisty,'),
+                                                                ('generalConsultation',
+                                                                 'omówienie aktualnego stanu swojego zdrowia.')])
 
     useOfETools = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
                                             label='Czy za pomocą teleporady otrzymał/a Pan/Pani:',
-                                    choices=[('e-sickLeave', 'e-zwolnienie,'),
-                                             ('e-presctiption', 'e-receptę,'),
-                                             ('e-referral', 'e-skierowanie?')])
+                                            choices=[('e-sickLeave', 'e-zwolnienie,'),
+                                                     ('e-presctiption', 'e-receptę,'),
+                                                     ('e-referral', 'e-skierowanie?')])
 
     preparationBeforeConsultation = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
                                                               label='Czy przygotował Pan/Pani do rozmowy z lekarzem: ',
@@ -138,16 +139,13 @@ class PatientForm(forms.Form):
             'preparationBeforeConsultation',
 
             FormActions(
-                Submit('goNext', 'Przejdź dalej', css_class='btn-default'),
+                Button('goNext', 'Przejdź dalej', css_class='btn-default'),
+
             )
         )
 
 
 class DoctorForm(forms.Form):
-    name = forms.CharField()
-
-
-class AllGroupsForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -155,6 +153,67 @@ class AllGroupsForm(forms.Form):
         self.helper.form_method = 'post'
 
         self.helper.layout = Layout(
+
+            FormActions(
+                Submit('goNext', 'Przejdź dalej', css_class='btn-default'),
+            )
+        )
+
+
+class AllGroupsForm(forms.Form):
+    options = [('yes', 'Tak'), ('no', 'Nie')]
+
+    didTechnicalProblemsOccur = forms.ChoiceField(label='Czy podczas teleporady występowały problemy z połączeniem '
+                                                        'telefonicznym?',
+                                                  choices=options,
+                                                  widget=forms.RadioSelect)
+
+    eConsultationVsVisit = forms.ChoiceField(label='Co Pan/Pani woli?',
+                                             choices=[('eConsultation', 'teleporada'), ('visit', 'wizyta stacjonarna')],
+                                             widget=forms.RadioSelect)
+
+    eConsultationAsStandard = forms.ChoiceField(label='Czy chciałby/chciałaby Pan/Pani, aby teleporada pozostała nadal '
+                                                      'standardem?',
+                                                choices=[('yes', 'Tak'), ('no', 'Nie'),
+                                                         ('noOpinion', 'Nie mam zdania')],
+                                                widget=forms.RadioSelect)
+
+    accessibilityVsLimitingEConsults = forms.ChoiceField(
+        label='Czy ograniczenie teleporad spowoduje pogorszenie już i tak trudnego dostępu do lekarzy specjalistów?',
+        choices=[('yes', 'Tak'), ('no', 'Nie'), ('noOpinion', 'Nie mam zdania')],
+        widget=forms.RadioSelect)
+
+    eConsultationVsChildren = forms.ChoiceField(label='Czy nadużywanie teleporad może nieść negatywne konsekwencje dla '
+                                                      'osób starszych i dzieci? ',
+                                                choices=options,
+                                                widget=forms.RadioSelect)
+
+    queuesAndVisits = forms.ChoiceField(label='Czy obowiązek konsultowania każdego nowego problemu zdrowotnego '
+                                              'stacjonarnie oznaczać może powrót kolejek i przepełnionych przychodni?',
+                                        choices=[('yes', 'Tak'), ('no', 'Nie'), ('noOpinion', 'Nie mam zdania')],
+                                        widget=forms.RadioSelect)
+
+    whoDecidesWhichForm = forms.ChoiceField(label='Kto powinien decydować o formie wizyty?',
+                                        choices=[('patient', 'Pacjent'), ('doctor', 'Lekarz')],
+                                        widget=forms.RadioSelect)
+
+    comments = forms.CharField(widget=forms.Textarea, label='Uwagi końcowe - co należałoby poprawić w systemie teleporad?')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper
+        self.helper.form_method = 'post'
+
+        self.helper.layout = Layout(
+            'didTechnicalProblemsOccur',
+            'eConsultationVsVisit',
+            'eConsultationAsStandard',
+            'accessibilityVsLimitingEConsults',
+            'eConsultationVsChildren',
+            'queuesAndVisits',
+            'whoDecidesWhichForm',
+            'comments',
+
             FormActions(
                 Submit('submit', 'Wyślij', css_class='btn-default'),
             )
