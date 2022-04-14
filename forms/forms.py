@@ -61,12 +61,12 @@ class GeneralForm(forms.Form):
 
 
 class PatientForm(forms.Form):
-    options = [('yes', 'Tak'), ('no', 'Nie')]
+    options = [(True, 'Tak'), (False, 'Nie')]
     usePOZ = forms.ChoiceField(label='Czy korzysta Pan/Pani z Podstawowej Opieki Zdrowotnej?',
                                choices=options,
                                widget=forms.RadioSelect)
     freqOfVisits = forms.ChoiceField(label='Czy wizyty w POZ są:',
-                                     choices=[('regularne', 'Regularne (5-6 razy w roku)')],
+                                     choices=[('Regular', 'Regularne (5-6 razy w roku)'), ('Occasional','Sporadyczne')],
                                      widget=forms.RadioSelect)
     isPunctual = forms.ChoiceField(label='Czy umawiając się na teleporadę pamiętał/a Pan/Pani o punktualności?',
                                    choices=options,
@@ -128,14 +128,13 @@ class PatientForm(forms.Form):
             'preparationBeforeConsultation',
 
             FormActions(
-                Button('goNext', 'Przejdź dalej', css_class='btn-default'),
-
+                Submit('goNext', 'Przejdź dalej', css_class='btn-default'),
             )
         )
 
 
 class DoctorForm(forms.Form):
-    options = [('yes', 'Tak'), ('no', 'Nie')]
+    options = [(True, 'Tak'), (False, 'Nie')]
     numberOfEConsults = forms.CharField(widget=forms.TextInput, label=mark_safe('Przeciętna dzienna liczba: <br/>'
                                                                                 'teleporad: '))
     numberOfVisits = forms.CharField(widget=forms.TextInput, label='wizyt stacjonarnych: ') #TODO dać wcięcie
@@ -158,7 +157,7 @@ class DoctorForm(forms.Form):
 
     seriousnessOfEConsult = forms.ChoiceField(label='Czy Pani/Pana zdaniem pacjenci traktują teleporady mniej poważnie '
                                                     'niż wizyty stacjonarne?',
-                                              choices=[('yes', 'Tak'), ('no', 'Nie'),
+                                              choices=[(True, 'Tak'), (False, 'Nie'),
                                                        ('noOpinion', 'Nie mam zdania')],
                                               widget=forms.RadioSelect)
 
@@ -212,7 +211,7 @@ class DoctorForm(forms.Form):
 
 
 class AllGroupsForm(forms.Form):
-    options = [('yes', 'Tak'), ('no', 'Nie')]
+    options = [(True, 'Tak'), (False, 'Nie')]
 
     didTechnicalProblemsOccur = forms.ChoiceField(label='Czy podczas teleporady występowały problemy z połączeniem '
                                                         'telefonicznym?',
@@ -225,13 +224,13 @@ class AllGroupsForm(forms.Form):
 
     eConsultationAsStandard = forms.ChoiceField(label='Czy chciałby/chciałaby Pan/Pani, aby teleporada pozostała nadal '
                                                       'standardem?',
-                                                choices=[('yes', 'Tak'), ('no', 'Nie'),
+                                                choices=[(True, 'Tak'), (False, 'Nie'),
                                                          ('noOpinion', 'Nie mam zdania')],
                                                 widget=forms.RadioSelect)
 
     accessibilityVsLimitingEConsults = forms.ChoiceField(
         label='Czy ograniczenie teleporad spowoduje pogorszenie już i tak trudnego dostępu do lekarzy specjalistów?',
-        choices=[('yes', 'Tak'), ('no', 'Nie'), ('noOpinion', 'Nie mam zdania')],
+        choices=[(True, 'Tak'), (False, 'Nie'), ('noOpinion', 'Nie mam zdania')],
         widget=forms.RadioSelect)
 
     eConsultationVsChildren = forms.ChoiceField(label='Czy nadużywanie teleporad może nieść negatywne konsekwencje dla '
@@ -241,7 +240,7 @@ class AllGroupsForm(forms.Form):
 
     queuesAndVisits = forms.ChoiceField(label='Czy obowiązek konsultowania każdego nowego problemu zdrowotnego '
                                               'stacjonarnie oznaczać może powrót kolejek i przepełnionych przychodni?',
-                                        choices=[('yes', 'Tak'), ('no', 'Nie'), ('noOpinion', 'Nie mam zdania')],
+                                        choices=[(True, 'Tak'), (False, 'Nie'), ('noOpinion', 'Nie mam zdania')],
                                         widget=forms.RadioSelect)
 
     whoDecidesWhichForm = forms.ChoiceField(label='Kto powinien decydować o formie wizyty?',
