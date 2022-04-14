@@ -12,19 +12,44 @@ class Patient(models.Model):
     freqOfVisits = models.CharField(max_length=100)
     isPunctual = models.BooleanField()
     correctDateOfEConsultation = models.BooleanField()
+    isProblemResolved = models.BooleanField()
+    wasVisitProposed = models.BooleanField()
+    wereInstructionsClear = models.BooleanField()
+    useOfESickLeave = models.BooleanField()
+    useOfEPrescription = models.BooleanField()
+    useOfEReferral = models.BooleanField()
+
+class PreparationForEConsultation(): #TODO zobaczyć jak to wygląda dla MultipleChoiceField
+    patientID = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    isPESEL = models.BooleanField()
+    isPenAndPaper = models.BooleanField()
+    isSelfControlJournal = models.BooleanField()
+    isTestResults = models.BooleanField()
+    isListOfMedicine = models.BooleanField()
+    isListOfQuestions = models.BooleanField()
 
 
+class Doctor(models.Model):
+    respondentId = models.ForeignKey(General, on_delete=models.CASCADE)
+    numberOfEConsults = models.IntegerField()
+    technicalSkillsRating = models.IntegerField()
+    avgTimeToFairEConsult = models.CharField(max_length=100)
+    howManyEConsultsNeedingVisits = models.IntegerField()
+    arePatientsPrepared = models.BooleanField()
+    howManyPatientsDontAnswer = models.IntegerField()
+    seriousnessOfPatients = models.CharField(max_length=100)
+    cancellingIfNoContact = models.BooleanField()
+    limitedTrust = models.BooleanField()
+    eTechniquesAndTimeEfficiency = models.BooleanField()
+    eTechniquesAndWorkEase = models.BooleanField()
+    fearOfReturning = models.BooleanField()
 
-# class Doctor(models.Model):
-#
-# class AllGroups(models.Model):
-#
-#
-# class PatientForm(forms.ModelForm):
-#
-#
-# def generalQuestions(request):
-#
-# def patientQuestions(request):
-#
-# def doctorQuestions(request):
+class AllGroups(models.Model):
+    didTechnicalProblemsOccur = models.BooleanField()
+    eConsultationVsVisit = models.CharField(max_length=100)
+    eConsultationAsStandard = models.CharField(max_length=100)
+    accessibilityVsLimitingEConsults = models.CharField(max_length=100)
+    eConsultationVsChildren = models.CharField(max_length=100)
+    queuesAndVisits = models.CharField(max_length=100)
+    whoDecidesWhichForm = models.CharField(max_length=100)
+    comments = models.TextField()

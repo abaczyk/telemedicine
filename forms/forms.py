@@ -83,7 +83,7 @@ class PatientForm(forms.Form):
                                                'problemu zdrowotnego zaoferowano możliwość wizyty osobistej?',
                                          choices=options,
                                          widget=forms.RadioSelect)
-    areInstructionsClear = forms.ChoiceField(label='Czy lekarz w sposób jasny i zrozumiały udzielił Panu/Pani '
+    wereInstructionsClear = forms.ChoiceField(label='Czy lekarz w sposób jasny i zrozumiały udzielił Panu/Pani '
                                                    'informacji na temat problemu zdrowotnego?',
                                              choices=options,
                                              widget=forms.RadioSelect)
@@ -108,7 +108,7 @@ class PatientForm(forms.Form):
                                                                         'dzienniczek samokontroli,'),
                                                                        ('testResults', 'wyniki badań,'),
                                                                        ('listOfMedicine', 'listę leków,'),
-                                                                       ('listOfQuestionsToDoctor',
+                                                                       ('listOfQuestions',
                                                                         'spis pytań do lekarza.')])
 
     def __init__(self, *args, **kwargs):
@@ -122,7 +122,7 @@ class PatientForm(forms.Form):
             'correctDateOfEConsultation',
             'isProblemResolved',
             'wasVisitProposed',
-            'areInstructionsClear',
+            'wereInstructionsClear',
             'purposeOfEConsultation',
             'useOfETechniques',
             'preparationBeforeConsultation',
@@ -139,8 +139,8 @@ class DoctorForm(forms.Form):
                                                                                 'teleporad: '))
     numberOfVisits = forms.CharField(widget=forms.TextInput, label='wizyt stacjonarnych: ') #TODO dać wcięcie
     technicalSkillsRating = forms.ChoiceField(label='Jak Pan/Pani ocenia swoje umiejętności techniczne?',
-                                              choices=[('1', 'bardzo źle'), ('2', 'źle'), ('3', 'neutralnie'),
-                                                       ('4', 'dobrze'), ('5', 'bardzo dobrze')],
+                                              choices=[(1, 'bardzo źle'), (2, 'źle'), (3, 'neutralnie'),
+                                                       (4, 'dobrze'), (5, 'bardzo dobrze')],
                                               # TODO ustawić jedno obok drugiego
                                               widget=forms.RadioSelect)
     avgTimeToFairEConsult = forms.CharField(widget=forms.TextInput, label='Ile średnio czasu potrzeba na '
@@ -155,7 +155,7 @@ class DoctorForm(forms.Form):
     howManyPatientsDontAnswer = forms.CharField(widget=forms.TextInput, label='Jaki procent pacjentów nie odbiera '
                                                                               'telefonów?')
 
-    seriousnessOfEConsult = forms.ChoiceField(label='Czy Pani/Pana zdaniem pacjenci traktują teleporady mniej poważnie '
+    seriousnessOfPatients = forms.ChoiceField(label='Czy Pani/Pana zdaniem pacjenci traktują teleporady mniej poważnie '
                                                     'niż wizyty stacjonarne?',
                                               choices=[(True, 'Tak'), (False, 'Nie'),
                                                        ('noOpinion', 'Nie mam zdania')],
@@ -197,7 +197,7 @@ class DoctorForm(forms.Form):
             'percentOfEConsultsNeedingVisits',
             'arePatientsPrepared',
             'howManyPatientsDontAnswer',
-            'seriousnessOfEConsult',
+            'seriousnessOfPatients',
             'cancellingIfNoContact',
             'limitedTrust',
             'eTechniquesAndTimeEfficiency',
@@ -235,7 +235,7 @@ class AllGroupsForm(forms.Form):
 
     eConsultationVsChildren = forms.ChoiceField(label='Czy nadużywanie teleporad może nieść negatywne konsekwencje dla '
                                                       'osób starszych i dzieci? ',
-                                                choices=options,
+                                                choices=[(True, 'Tak'), (False, 'Nie'), ('noOpinion', 'Nie mam zdania')],
                                                 widget=forms.RadioSelect)
 
     queuesAndVisits = forms.ChoiceField(label='Czy obowiązek konsultowania każdego nowego problemu zdrowotnego '
