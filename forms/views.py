@@ -1,23 +1,22 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .forms import GeneralForm, PatientForm, DoctorForm, AllGroupsForm, Main
 
 
 def main(request):
-
     if request.method == 'POST':
         form = Main(request.POST)
     form = Main()
-    return render(request, 'forms.html', {'form': form})
+    return render(request, 'main.html', {'form': form})
 
 def general(request):
-
     if request.method == 'POST':
         form = GeneralForm(request.POST)
         if form.is_valid():
-            gender = form.cleaned_data['gender']
-            age = form.cleaned_data['age']
-            residence = form.cleaned_data['residence']
-            whoIsRespondent = form.cleaned_data['whoIsRespondent']
+            if request.POST.get('whoIsRespondent') == 'Pacjent':
+                return redirect('patient')
+            else:
+                return redirect('doctor')
+
     else:
         form = GeneralForm()
 
@@ -27,10 +26,8 @@ def general(request):
 def patient(request):
     if request.method == 'POST':
         form = PatientForm(request.POST)
-    #     if form.is_valid():
-    #         name = form.cleaned_data['name']
-    #         email = form.cleaned_data['email']
-    #
+        if form.is_valid():
+            return redirect('allGroups') #TODO naprawic
     else:
         form = PatientForm()
 
@@ -40,10 +37,8 @@ def patient(request):
 def doctor(request):
     if request.method == 'POST':
         form = DoctorForm(request.POST)
-    #     if form.is_valid():
-    #         name = form.cleaned_data['name']
-    #         email = form.cleaned_data['email']
-    #
+        if form.is_valid():
+            return redirect('allGroups')
     else:
         form = DoctorForm()
 

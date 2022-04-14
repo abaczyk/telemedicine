@@ -55,7 +55,6 @@ class GeneralForm(forms.Form):
 
             FormActions(
                 Submit('goNext', 'Przejdź dalej', css_class='btn-default'),
-                # TODO opracować przechodzenie do innych stron
             )
         )
 
@@ -133,6 +132,7 @@ class PatientForm(forms.Form):
         )
 
 
+
 class DoctorForm(forms.Form):
     options = [(True, 'Tak'), (False, 'Nie')]
     numberOfEConsults = forms.CharField(widget=forms.TextInput, label=mark_safe('Przeciętna dzienna liczba: <br/>'
@@ -190,7 +190,7 @@ class DoctorForm(forms.Form):
             'numberOfEConsults',
             'numberOfVisits',
             'technicalSkillsRating',
-            'percentOfEConsultsNeedingVisits',
+            'howManyEConsultsNeedingVisits',
             'arePatientsPrepared',
             'howManyPatientsDontAnswer',
             'seriousnessOfPatients',
@@ -199,10 +199,10 @@ class DoctorForm(forms.Form):
             'eTechniquesAndTimeEfficiency',
             'eTechniquesAndWorkEase',
             'fearOfReturning',
-
             FormActions(
                 Submit('goNext', 'Przejdź dalej', css_class='btn-default'),
             )
+
         )
 
 
@@ -243,7 +243,7 @@ class AllGroupsForm(forms.Form):
                                             widget=forms.RadioSelect)
 
     comments = forms.CharField(widget=forms.Textarea,
-                               label='Uwagi końcowe - co należałoby poprawić w systemie teleporad?')
+                               label='Uwagi końcowe - co należałoby poprawić w systemie teleporad?', required=False)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -259,8 +259,7 @@ class AllGroupsForm(forms.Form):
             'queuesAndVisits',
             'whoDecidesWhichForm',
             'comments',
-
             FormActions(
-                Submit('submit', 'Wyślij', css_class='btn-default'),
+                Submit('save', 'Zapisz', css_class='btn-default'),
             )
         )

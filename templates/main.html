@@ -1,31 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Teleporada | Ankieta</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-body, html {
-  height: 100%;
-  margin: 0;
-}
+{% block content %}
+<h1>
+    <a href="{% url 'general' %}">Przejdź do ankiety</a>
+</h1>
+{% endblock content %}
 
-.bg {
-  /* The image used */
-  background-image: url("background.png");
-
-  /* Full height */
-  height: 100%;
-
-  /* Center and scale the image nicely */
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-</style>
-</head>
-<body>
-
-<div class="bg"></div>
-</body>
-</html>
