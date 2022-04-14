@@ -49,8 +49,9 @@ def allGroups(request):
     if request.method == 'POST':
         form = AllGroupsForm(request.POST)
         if form.is_valid():
-            form.save()
+            #form.save()
+            print('s')
     else:
         form = AllGroupsForm()
 
-    return render(request, 'forms.html', {'form': form})
+    return render(request, 'thankYou.html', {'form': form})
