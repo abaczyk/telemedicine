@@ -33,7 +33,6 @@ class Doctor(models.Model):
     respondentId = models.ForeignKey(General, on_delete=models.CASCADE)
     numberOfEConsults = models.IntegerField()
     technicalSkillsRating = models.IntegerField()
-    avgTimeToFairEConsult = models.CharField(max_length=100)
     howManyEConsultsNeedingVisits = models.IntegerField()
     arePatientsPrepared = models.BooleanField()
     howManyPatientsDontAnswer = models.IntegerField()
@@ -42,7 +41,7 @@ class Doctor(models.Model):
     limitedTrust = models.BooleanField()
     eTechniquesAndTimeEfficiency = models.BooleanField()
     eTechniquesAndWorkEase = models.BooleanField()
-    fearOfReturning = models.BooleanField()
+    fearOfReturning = models.CharField(max_length=100)
 
 class AllGroups(models.Model):
     didTechnicalProblemsOccur = models.BooleanField()
