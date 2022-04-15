@@ -2,7 +2,6 @@ from crispy_forms.bootstrap import FormActions
 from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Button
-from django.http import HttpResponseRedirect
 from django.utils.safestring import mark_safe
 
 
@@ -136,7 +135,7 @@ class PatientForm(forms.Form):
 class DoctorForm(forms.Form):
     options = [(True, 'Tak'), (False, 'Nie')]
     numberOfEConsults = forms.CharField(widget=forms.TextInput, label=mark_safe('Przeciętna dzienna liczba: <br/>'
-                                                                                'teleporad: '))
+                                                                                '1. teleporad: '))
     numberOfVisits = forms.CharField(widget=forms.TextInput, label='wizyt stacjonarnych: ') #TODO dać wcięcie
     technicalSkillsRating = forms.ChoiceField(label='Jak Pan/Pani ocenia swoje umiejętności techniczne?',
                                               choices=[(1, 'bardzo źle'), (2, 'źle'), (3, 'przeciętnie'),
@@ -168,11 +167,11 @@ class DoctorForm(forms.Form):
                                      widget=forms.RadioSelect)
 
     eTechniquesAndTimeEfficiency = forms.ChoiceField(label=mark_safe('Czy stosowanie e-technik: e-recepty, e-skierowania, '
-                                                           'e-zwolnienia: <br/>powodują oszczędność czasu?'), #TODO dać wcięcie
+                                                           'e-zwolnienia: <br/>1. powodują oszczędność czasu?'), #TODO dać wcięcie
                                                      choices=options,
                                                      widget=forms.RadioSelect)
 
-    eTechniquesAndWorkEase = forms.ChoiceField(label='ułatwiają pracę?',
+    eTechniquesAndWorkEase = forms.ChoiceField(label='2. ułatwiają pracę?',
                                                choices=options,
                                                widget=forms.RadioSelect)
 
@@ -263,3 +262,4 @@ class AllGroupsForm(forms.Form):
                 Submit('save', 'Zapisz', css_class='btn-default'),
             )
         )
+

@@ -28,10 +28,11 @@ def patient(request):
         form = PatientForm(request.POST)
         if form.is_valid():
             return redirect('allGroups') #TODO naprawic
-    else:
-        form = PatientForm()
+    context = {}
+    context['form'] = PatientForm()
 
-    return render(request, 'forms.html', {'form': form})
+
+    return render(request, 'forms.html', context)
 
 
 def doctor(request):
@@ -39,19 +40,20 @@ def doctor(request):
         form = DoctorForm(request.POST)
         if form.is_valid():
             return redirect('allGroups')
+
     else:
         form = DoctorForm()
-
     return render(request, 'forms.html', {'form': form})
 
 
 def allGroups(request):
+    context = {'form' : AllGroupsForm()}
     if request.method == 'POST':
         form = AllGroupsForm(request.POST)
         if form.is_valid():
-            #form.save()
-            print('s')
-    else:
-        form = AllGroupsForm()
+            form.save()
+            return redirect('thankYou')
+    return render(request, 'forms.html', context)
 
-    return render(request, 'thankYou.html', {'form': form})
+def thankYou(request):
+    return render(request, 'thankYou.html')
