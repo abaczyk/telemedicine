@@ -2,21 +2,12 @@ from crispy_forms.bootstrap import FormActions
 from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Button
+from django.forms import ModelForm, models
 from django.utils.safestring import mark_safe
+from .models import General, Patient, Doctor, AllGroups
 
 
-class Main(forms.Form):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.helper = FormHelper
-        self.helper.form_method = 'post'
-
-        self.helper.layout = Layout(
-            Button('goToForm', 'Przejdź do ankiety')
-        )
-
-
-class GeneralForm(forms.Form):
+class GeneralForm(forms.ModelForm):
     gender = forms.ChoiceField(label='Płeć',
                                choices=[('kobieta', 'Kobieta'),
                                         ('mężczyzna', 'Mężczyzna'),
@@ -56,9 +47,11 @@ class GeneralForm(forms.Form):
                 Submit('goNext', 'Przejdź dalej', css_class='btn-default'),
             )
         )
+    class Meta:
+        model = General
+        fields = ['gender', 'age', 'residence', 'whoIsRespondent']
 
-
-class PatientForm(forms.Form):
+class PatientForm(forms.ModelForm):
     options = [(True, 'Tak'), (False, 'Nie')]
     usePOZ = forms.ChoiceField(label='Czy korzysta Pan/Pani z Podstawowej Opieki Zdrowotnej?',
                                choices=options,
@@ -129,10 +122,14 @@ class PatientForm(forms.Form):
                 Submit('goNext', 'Przejdź dalej', css_class='btn-default'),
             )
         )
+    class Meta:
+        model = Patient
+        fields = ['usePOZ', 'freqOfVisits', 'correctDateOfEConsultation', 'isProblemResolved',
+                  'wasVisitProposed', 'wereInstructionsClear', 'purposeOfEConsultation',
+                  'useOfETechniques', 'preparationBeforeConsultation']
 
 
-
-class DoctorForm(forms.Form):
+class DoctorForm(forms.ModelForm):
     options = [(True, 'Tak'), (False, 'Nie')]
     numberOfEConsults = forms.CharField(widget=forms.TextInput, label=mark_safe('Przeciętna dzienna liczba: <br/>'
                                                                                 '1. teleporad: '))
@@ -204,8 +201,14 @@ class DoctorForm(forms.Form):
 
         )
 
+    class Meta:
+        model = Doctor
+        fields = ['numberOfEConsults', 'numberOfVisits', 'technicalSkillsRating', 'howManyEConsultsNeedingVisits',
+                  'arePatientsPrepared', 'howManyPatientsDontAnswer', 'seriousnessOfPatients',
+                  'cancellingIfNoContact', 'limitedTrust', 'eTechniquesAndTimeEfficiency', 'eTechniquesAndWorkEase',
+                  'fearOfReturning']
 
-class AllGroupsForm(forms.Form):
+class AllGroupsForm(forms.ModelForm):
     options = [(True, 'Tak'), (False, 'Nie')]
     options1 = [('True', 'Tak'), ('False', 'Nie'), ('NoOpinion', 'Nie mam zdania')]
     didTechnicalProblemsOccur = forms.ChoiceField(label='Czy podczas teleporady występowały problemy z połączeniem '
@@ -258,8 +261,14 @@ class AllGroupsForm(forms.Form):
             'queuesAndVisits',
             'whoDecidesWhichForm',
             'comments',
+
             FormActions(
                 Submit('save', 'Zapisz', css_class='btn-default'),
             )
         )
 
+    class Meta:
+        model = AllGroups
+        fields = ['didTechnicalProblemsOccur', 'eConsultationVsVisit', 'eConsultationAsStandard',
+                  'accessibilityVsLimitingEConsults', 'eConsultationVsChildren', 'queuesAndVisits',
+                  'whoDecidesWhichForm','comments']

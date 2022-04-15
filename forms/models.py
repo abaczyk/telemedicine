@@ -1,13 +1,28 @@
 from django.db import models
 
+
+class AllGroups(models.Model):
+    didTechnicalProblemsOccur = models.BooleanField()
+    eConsultationVsVisit = models.CharField(max_length=100)
+    eConsultationAsStandard = models.CharField(max_length=100)
+    accessibilityVsLimitingEConsults = models.CharField(max_length=100)
+    eConsultationVsChildren = models.CharField(max_length=100)
+    queuesAndVisits = models.CharField(max_length=100)
+    whoDecidesWhichForm = models.CharField(max_length=100)
+    comments = models.TextField()
+
+
 class General(models.Model):
     gender = models.CharField(max_length=100)
     age = models.CharField(max_length=100)
     residence = models.CharField(max_length=100)
     whoIsRespondent = models.CharField(max_length=100)
 
+
+
 class Patient(models.Model):
-    respondentId = models.ForeignKey(General, on_delete=models.CASCADE)
+    respondentID = models.ForeignKey(General, on_delete=models.CASCADE)
+    allGroupsID = models.ForeignKey(AllGroups, on_delete=models.CASCADE, default=0)
     usePOZ = models.BooleanField()
     freqOfVisits = models.CharField(max_length=100)
     isPunctual = models.BooleanField()
@@ -18,6 +33,7 @@ class Patient(models.Model):
     useOfESickLeave = models.BooleanField()
     useOfEPrescription = models.BooleanField()
     useOfEReferral = models.BooleanField()
+
 
 class PreparationForEConsultation(): #TODO zobaczyć jak to wygląda dla MultipleChoiceField
     patientID = models.ForeignKey(Patient, on_delete=models.CASCADE)
@@ -30,7 +46,8 @@ class PreparationForEConsultation(): #TODO zobaczyć jak to wygląda dla Multipl
 
 
 class Doctor(models.Model):
-    respondentId = models.ForeignKey(General, on_delete=models.CASCADE)
+    respondentID = models.ForeignKey(General, on_delete=models.CASCADE)
+    allGroupsID = models.ForeignKey(AllGroups, on_delete=models.CASCADE, default=0)
     numberOfEConsults = models.IntegerField()
     technicalSkillsRating = models.IntegerField()
     howManyEConsultsNeedingVisits = models.IntegerField()
@@ -42,13 +59,3 @@ class Doctor(models.Model):
     eTechniquesAndTimeEfficiency = models.BooleanField()
     eTechniquesAndWorkEase = models.BooleanField()
     fearOfReturning = models.CharField(max_length=100)
-
-class AllGroups(models.Model):
-    didTechnicalProblemsOccur = models.BooleanField()
-    eConsultationVsVisit = models.CharField(max_length=100)
-    eConsultationAsStandard = models.CharField(max_length=100)
-    accessibilityVsLimitingEConsults = models.CharField(max_length=100)
-    eConsultationVsChildren = models.CharField(max_length=100)
-    queuesAndVisits = models.CharField(max_length=100)
-    whoDecidesWhichForm = models.CharField(max_length=100)
-    comments = models.TextField()
