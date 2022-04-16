@@ -1,3 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
 
+        .bg {
+            background-image: url('{% static 'img/background.jpg'%}');
+            height: 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .content {
+            position: absolute;
+            left: 0;
+            height: 100%;
+            width: 50%;
+            background: rgb(0, 0, 0);
+            background: rgba(255, 255, 255);
+        }
+
+        .text {
+            color: #4d5258;
+            padding-left: 9%;
+            padding-top: 25%;
+            padding-right: 9%;
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            font-size: 16px;
+            text-align: justify;
+        }
+
+        h1 {
+            font-size: 38px;
+            font-family: 'DM Serif Display', serif;
+            font-weight: bolder;
+            text-align: left;
+            line-height: normal;
+            color: #283e9b;
+        }
+
+    </style>
+    <title>Teleporada | Ankieta</title>
+</head>
+<div class="bg">
+    <div class="content">
+        <div class="text">
 <h1>Dziękujemy za wypełnienie ankiety!</h1>
 <h2>Przeanalizowane dane wraz z wnioskami zostaną udostępnione na stronie w dniu 19.05.2022 r.</h2>
+</div></div>
+</div>
+</html>
