@@ -110,6 +110,7 @@ class PatientForm(forms.ModelForm):
         self.helper.layout = Layout(
             'usePOZ',
             'freqOfVisits',
+            'isPunctual',
             'correctDateOfEConsultation',
             'isProblemResolved',
             'wasVisitProposed',
@@ -131,13 +132,11 @@ class PatientForm(forms.ModelForm):
 # TODO poprawić walidatory
 class DoctorForm(forms.ModelForm):
     options = [(True, 'Tak'), (False, 'Nie')]
-    numeric = RegexValidator(r'^[0-9+]', 'Podana wartość nie jest liczbą całkowitą')
     numberOfEConsults = forms.CharField(widget=forms.TextInput,
                                         label=mark_safe('Przeciętna dzienna liczba: <br/>'
                                                         '1. teleporad: '))
     numberOfVisits = forms.CharField(widget=forms.TextInput,
-                                     label='2. wizyt stacjonarnych: ',
-                                     validators=[numeric])  # TODO dać wcięcie
+                                     label='2. wizyt stacjonarnych: ')  # TODO dać wcięcie
     technicalSkillsRating = forms.ChoiceField(label='Jak Pan/Pani ocenia swoje umiejętności techniczne?',
                                               choices=[(1, 'bardzo źle'), (2, 'źle'), (3, 'przeciętnie'),
                                                        (4, 'dobrze'), (5, 'bardzo dobrze')],
@@ -146,8 +145,7 @@ class DoctorForm(forms.ModelForm):
     howManyEConsultsNeedingVisits = forms.CharField(widget=forms.TextInput,
                                                     label='Ile procent teleporad wymaga '
                                                           'umówienia wizyty stacjonarnej?',
-                                                    help_text="Wpisz liczbę całkowitą z zakresu 0-100",
-                                                    validators=[numeric])
+                                                    help_text="Wpisz liczbę całkowitą z zakresu 0-100")
 
     arePatientsPrepared = forms.ChoiceField(label='Czy pacjenci są przygotowani do rozmowy z lekarzem?',
                                             choices=options,
@@ -155,7 +153,7 @@ class DoctorForm(forms.ModelForm):
     howManyPatientsDontAnswer = forms.CharField(widget=forms.TextInput,
                                                 label='Jaki procent pacjentów nie odbiera '
                                                       'telefonów?', help_text="Wpisz liczbę całkowitą z zakresu 0-100",
-                                                validators=[numeric])
+                                                )
 
     seriousnessOfPatients = forms.ChoiceField(label='Czy Pani/Pana zdaniem pacjenci traktują teleporady mniej poważnie '
                                                     'niż wizyty stacjonarne?',
@@ -211,9 +209,34 @@ class DoctorForm(forms.ModelForm):
 
     def clean_numberOfEConsults(self):
         data = self.cleaned_data['numberOfEConsults']
-        if type(data) != int:
+        if not data.isdecimal():
             raise ValidationError('Wpisana wartość nie jest liczbą całkowitą')
         return data
+
+    def clean_numberOfVisits(self):
+        data = self.cleaned_data['numberOfVisits']
+        if not data.isdecimal():
+            raise ValidationError('Wpisana wartość nie jest liczbą całkowitą')
+        return data
+
+    def clean_howManyEConsultsNeedingVisits(self):
+        data = self.cleaned_data['howManyEConsultsNeedingVisits']
+        if not data.isdecimal():
+            raise ValidationError('Wpisana wartość nie jest liczbą całkowitą')
+        # else:
+        #     if data < 0 or data > 100:
+        #         raise ValidationError('Wpisana wartość jest spoza zakresu 0-100')
+        return data
+
+    def clean_howManyPatientsDontAnswer(self):
+        data = self.cleaned_data['howManyPatientsDontAnswer']
+        if not data.isdecimal():
+            raise ValidationError('Wpisana wartość nie jest liczbą całkowitą')
+        # else:
+        #     if (int) data < 0 or (int) data > 100:
+        #         raise ValidationError('Wpisana wartość jest spoza zakresu 0-100')
+        return data
+
 
     class Meta:
         model = Doctor

@@ -19,13 +19,14 @@ class Patient(models.Model):
     isProblemResolved = models.BooleanField()
     wasVisitProposed = models.BooleanField()
     wereInstructionsClear = models.BooleanField()
+    purposeOfEConsultation = models.CharField(max_length=100)
     useOfETechniques = models.BooleanField()
     isPreparedBeforeEConsultation = models.BooleanField()
 
 
 class Doctor(models.Model):
     id = models.AutoField(primary_key=True)
-    # respondentID = models.OneToOneField(General, on_delete=models.CASCADE)
+    respondentID = models.OneToOneField(General, on_delete=models.CASCADE)
     numberOfEConsults = models.IntegerField()
     numberOfVisits = models.IntegerField()
     technicalSkillsRating = models.IntegerField()

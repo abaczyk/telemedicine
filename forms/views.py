@@ -10,6 +10,7 @@ def general(request):
     context = {'form': GeneralForm()}
     if request.method == 'POST':
         form = GeneralForm(request.POST)
+        context['form'] = form
         if form.is_valid():
             form.save()
             if request.POST.get('whoIsRespondent') == 'Pacjent':
@@ -25,6 +26,7 @@ def patient(request):
     context = {'form': PatientForm()}
     if request.method == 'POST':
         form = PatientForm(request.POST)
+        context['form'] = form
         if form.is_valid():
             form.save()
             return redirect('allGroups') #TODO naprawic
@@ -37,6 +39,7 @@ def doctor(request, args=None):
     context = {'form': DoctorForm()}
     if request.method == 'POST':
         form = DoctorForm(request.POST)
+        context['form'] = form
         if form.is_valid():
             form.save()
             return redirect('allGroups')
@@ -49,6 +52,7 @@ def allGroups(request):
     context = {'form': AllGroupsForm()}
     if request.method == 'POST':
         form = AllGroupsForm(request.POST)
+        context['form'] = form
         if form.is_valid():
             form.save()
             return redirect('thankYou')
