@@ -132,33 +132,25 @@ class PatientForm(forms.ModelForm):
 
 # TODO poprawić walidatory
 class DoctorForm(forms.ModelForm):
-
-    def checkIfInteger(value):
-        if type(value) != int:
-            raise ValidationError(
-                ('%(value) nie jest liczbą całkowitą'),
-                params={'value': value},
-            )
-
     options = [(True, 'Tak'), (False, 'Nie')]
-    numberOfEConsults = forms.CharField(widget=forms.TextInput, validators=[checkIfInteger],
+    numberOfEConsults = forms.CharField(widget=forms.TextInput,
                                         label=mark_safe('Przeciętna dzienna liczba: <br/>'
                                                         '1. teleporad: '))
-    numberOfVisits = forms.CharField(widget=forms.TextInput, validators=[checkIfInteger],
+    numberOfVisits = forms.CharField(widget=forms.TextInput,
                                      label='2. wizyt stacjonarnych: ')  # TODO dać wcięcie
     technicalSkillsRating = forms.ChoiceField(label='Jak Pan/Pani ocenia swoje umiejętności techniczne?',
                                               choices=[(1, 'bardzo źle'), (2, 'źle'), (3, 'przeciętnie'),
                                                        (4, 'dobrze'), (5, 'bardzo dobrze')],
                                               # TODO ustawić jedno obok drugiego
                                               widget=forms.RadioSelect)
-    howManyEConsultsNeedingVisits = forms.CharField(widget=forms.TextInput, validators=[checkIfInteger],
+    howManyEConsultsNeedingVisits = forms.CharField(widget=forms.TextInput,
                                                     label='Ile procent teleporad wymaga '
                                                           'umówienia wizyty stacjonarnej?')
 
     arePatientsPrepared = forms.ChoiceField(label='Czy pacjenci są przygotowani do rozmowy z lekarzem?',
                                             choices=options,
                                             widget=forms.RadioSelect)
-    howManyPatientsDontAnswer = forms.CharField(widget=forms.TextInput, validators=[checkIfInteger],
+    howManyPatientsDontAnswer = forms.CharField(widget=forms.TextInput,
                                                 label='Jaki procent pacjentów nie odbiera '
                                                       'telefonów?')
 
@@ -196,7 +188,6 @@ class DoctorForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper
         self.helper.form_method = 'post'
-
         self.helper.layout = Layout(
             'numberOfEConsults',
             'numberOfVisits',

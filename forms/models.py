@@ -2,21 +2,15 @@ from django.db import models
 
 
 class General(models.Model):
+    id = models.AutoField(primary_key=True)
     gender = models.CharField(max_length=100)
     age = models.CharField(max_length=100)
     residence = models.CharField(max_length=100)
     whoIsRespondent = models.CharField(max_length=100)
 
 
-# class PreparationForEConsultation(models.Model):  # TODO zobaczyć jak to wygląda dla MultipleChoiceField
-#     isPESEL = models.BooleanField()
-#     isPenAndPaper = models.BooleanField()
-#     isSelfControlJournal = models.BooleanField()
-#     isTestResults = models.BooleanField()
-#     isListOfMedicine = models.BooleanField()
-#     isListOfQuestions = models.BooleanField()
-
 class Patient(models.Model):
+    id = models.AutoField(primary_key=True)
     respondentID = models.OneToOneField(General, on_delete=models.CASCADE)
     usePOZ = models.BooleanField()
     freqOfVisits = models.CharField(max_length=100)
@@ -30,6 +24,7 @@ class Patient(models.Model):
 
 
 class Doctor(models.Model):
+    id = models.AutoField(primary_key=True)
     respondentID = models.OneToOneField(General, on_delete=models.CASCADE)
     numberOfEConsults = models.IntegerField()
     technicalSkillsRating = models.IntegerField()
@@ -45,6 +40,7 @@ class Doctor(models.Model):
 
 
 class AllGroups(models.Model):
+    id = models.AutoField(primary_key=True)
     respondentID = models.OneToOneField(General, on_delete=models.CASCADE)
     didTechnicalProblemsOccur = models.BooleanField()
     eConsultationVsVisit = models.CharField(max_length=100)
