@@ -33,7 +33,7 @@ def patient(request):
     return render(request, 'forms.html', context)
 
 
-def doctor(request):
+def doctor(request, args=None):
     context = {'form': DoctorForm()}
     if request.method == 'POST':
         form = DoctorForm(request.POST)

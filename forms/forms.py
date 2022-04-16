@@ -1,10 +1,10 @@
 from crispy_forms.bootstrap import FormActions
 from django import forms
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit, Button
+from crispy_forms.layout import Layout, Submit
+from django.conf import settings
 from django.core.exceptions import ValidationError
-from django.core.validators import int_list_validator
-from django.forms import ModelForm, models
+from django.core.validators import RegexValidator
 from django.utils.safestring import mark_safe
 from .models import General, Patient, Doctor, AllGroups
 
@@ -52,7 +52,7 @@ class GeneralForm(forms.ModelForm):
 
     class Meta:
         model = General
-        fields = ['gender', 'age', 'residence', 'whoIsRespondent']
+        fields = '__all__'
 
 
 class PatientForm(forms.ModelForm):
@@ -125,19 +125,19 @@ class PatientForm(forms.ModelForm):
 
     class Meta:
         model = Patient
-        fields = ['usePOZ', 'freqOfVisits', 'correctDateOfEConsultation', 'isProblemResolved',
-                  'wasVisitProposed', 'wereInstructionsClear', 'purposeOfEConsultation',
-                  'useOfETechniques', 'isPreparedBeforeEConsultation']
+        fields = '__all__'
 
 
 # TODO poprawić walidatory
 class DoctorForm(forms.ModelForm):
     options = [(True, 'Tak'), (False, 'Nie')]
+    numeric = RegexValidator(r'^[0-9+]', 'Podana wartość nie jest liczbą całkowitą')
     numberOfEConsults = forms.CharField(widget=forms.TextInput,
                                         label=mark_safe('Przeciętna dzienna liczba: <br/>'
                                                         '1. teleporad: '))
     numberOfVisits = forms.CharField(widget=forms.TextInput,
-                                     label='2. wizyt stacjonarnych: ')  # TODO dać wcięcie
+                                     label='2. wizyt stacjonarnych: ',
+                                     validators=[numeric])  # TODO dać wcięcie
     technicalSkillsRating = forms.ChoiceField(label='Jak Pan/Pani ocenia swoje umiejętności techniczne?',
                                               choices=[(1, 'bardzo źle'), (2, 'źle'), (3, 'przeciętnie'),
                                                        (4, 'dobrze'), (5, 'bardzo dobrze')],
@@ -145,14 +145,17 @@ class DoctorForm(forms.ModelForm):
                                               widget=forms.RadioSelect)
     howManyEConsultsNeedingVisits = forms.CharField(widget=forms.TextInput,
                                                     label='Ile procent teleporad wymaga '
-                                                          'umówienia wizyty stacjonarnej?')
+                                                          'umówienia wizyty stacjonarnej?',
+                                                    help_text="Wpisz liczbę całkowitą z zakresu 0-100",
+                                                    validators=[numeric])
 
     arePatientsPrepared = forms.ChoiceField(label='Czy pacjenci są przygotowani do rozmowy z lekarzem?',
                                             choices=options,
                                             widget=forms.RadioSelect)
     howManyPatientsDontAnswer = forms.CharField(widget=forms.TextInput,
                                                 label='Jaki procent pacjentów nie odbiera '
-                                                      'telefonów?')
+                                                      'telefonów?', help_text="Wpisz liczbę całkowitą z zakresu 0-100",
+                                                validators=[numeric])
 
     seriousnessOfPatients = forms.ChoiceField(label='Czy Pani/Pana zdaniem pacjenci traktują teleporady mniej poważnie '
                                                     'niż wizyty stacjonarne?',
@@ -206,14 +209,15 @@ class DoctorForm(forms.ModelForm):
             )
         )
 
-
+    def clean_numberOfEConsults(self):
+        data = self.cleaned_data['numberOfEConsults']
+        if type(data) != int:
+            raise ValidationError('Wpisana wartość nie jest liczbą całkowitą')
+        return data
 
     class Meta:
         model = Doctor
-        fields = ['numberOfEConsults', 'numberOfVisits', 'technicalSkillsRating', 'howManyEConsultsNeedingVisits',
-                  'arePatientsPrepared', 'howManyPatientsDontAnswer', 'seriousnessOfPatients',
-                  'cancellingIfNoContact', 'limitedTrust', 'eTechniquesAndTimeEfficiency', 'eTechniquesAndWorkEase',
-                  'fearOfReturning']
+        fields = '__all__'
 
 
 class AllGroupsForm(forms.ModelForm):
@@ -277,6 +281,5 @@ class AllGroupsForm(forms.ModelForm):
 
     class Meta:
         model = AllGroups
-        fields = ['didTechnicalProblemsOccur', 'eConsultationVsVisit', 'eConsultationAsStandard',
-                  'accessibilityVsLimitingEConsults', 'eConsultationVsChildren', 'queuesAndVisits',
-                  'whoDecidesWhichForm', 'comments']
+        fields = '__all__'
+
