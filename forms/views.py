@@ -16,7 +16,8 @@ def general(request):
                 return redirect('patient')
             else:
                 return redirect('doctor')
-
+        else:
+            form = GeneralForm()
     return render(request, 'forms.html', context)
 
 
@@ -27,6 +28,8 @@ def patient(request):
         if form.is_valid():
             form.save()
             return redirect('allGroups') #TODO naprawic
+        else:
+            form = PatientForm()
     return render(request, 'forms.html', context)
 
 
@@ -37,6 +40,8 @@ def doctor(request):
         if form.is_valid():
             form.save()
             return redirect('allGroups')
+        else:
+            form = DoctorForm()
     return render(request, 'forms.html', context)
 
 
@@ -47,6 +52,8 @@ def allGroups(request):
         if form.is_valid():
             form.save()
             return redirect('thankYou')
+        else:
+            form = AllGroupsForm()
     return render(request, 'forms.html', context)
 
 

@@ -202,10 +202,11 @@ class DoctorForm(forms.ModelForm):
             'eTechniquesAndWorkEase',
             'fearOfReturning',
             FormActions(
-                Submit('goNext', 'Przejdź dalej', css_class='btn-default'),
+                Submit('goNext', 'Przejdź dalej'),
             )
-
         )
+
+
 
     class Meta:
         model = Doctor

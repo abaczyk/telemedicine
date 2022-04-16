@@ -1,5 +1,5 @@
 from django.db import models
-
+from .validators import validateIfInteger
 
 class General(models.Model):
     id = models.AutoField(primary_key=True)
@@ -25,8 +25,8 @@ class Patient(models.Model):
 
 class Doctor(models.Model):
     id = models.AutoField(primary_key=True)
-    respondentID = models.OneToOneField(General, on_delete=models.CASCADE)
-    numberOfEConsults = models.IntegerField()
+    # respondentID = models.OneToOneField(General, on_delete=models.CASCADE)
+    numberOfEConsults = models.IntegerField(validators=[validateIfInteger])
     technicalSkillsRating = models.IntegerField()
     howManyEConsultsNeedingVisits = models.IntegerField()
     arePatientsPrepared = models.BooleanField()
