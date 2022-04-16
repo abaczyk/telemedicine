@@ -4,27 +4,103 @@
 <head>
     <meta charset="UTF-8">
     <style>
-body, html {
-  height: 100%;
-  margin: 0;
-}
+        @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
 
-.bg {
-  /* The image used */
-  background-image: url('{% static 'img/background.png'%}');
+        .bg {
+            background-image: url('{% static 'img/background.jpg'%}');
+            height: 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
 
-  /* Full height */
-  height: 100%;
+        * {
+            box-sizing: border-box;
+        }
 
-  /* Center and scale the image nicely */
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-</style>
-    <title>Teleporada|Ankieta</title>
+        .content {
+            position: absolute;
+            right: 0;
+            height: 100%;
+            width: 50%;
+            background: rgb(0, 0, 0);
+            background: rgba(255, 255, 255);
+        }
+
+        .text {
+            color: #4d5258;
+            padding-left: 9%;
+            padding-top: 15%;
+            padding-right: 9%;
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            font-size: 16px;
+            text-align: justify;
+        }
+
+        h1 {
+            font-size: 38px;
+            font-family: 'DM Serif Display', serif;
+            font-weight: bolder;
+            text-align: left;
+            line-height: normal;
+            color: #283e9b;
+        }
+
+        .button {
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #283e9b;
+            border-radius: 20px;
+            border-style: none;
+            box-sizing: border-box;
+            color: #FFFFFF;
+            cursor: pointer;
+            display: inline-block;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 16px;
+            height: 40px;
+            line-height: 20px;
+            list-style: none;
+            margin: 0;
+            outline: none;
+            padding: 10px 16px;
+            text-align: center;
+            text-decoration: none;
+            transition: color 100ms;
+            vertical-align: baseline;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+
+        .button:hover,
+        .button:focus {
+            background-color: #324EC4;
+        }
+    </style>
+    <title>Teleporada | Ankieta</title>
 </head>
-
- <div class="bg">
- </div>
+<div class="bg">
+    <div class="content">
+        <div class="text">
+            <h1>Wpływ teleporady na jakość świadczonych usług medycznych w&nbsp;ocenie pacjentów oraz lekarzy</h1>
+            <p>Jesteśmy studentami Politechniki Gdańskiej na kierunku Inżynieria Biomedyczna. W ramach przedmiotów
+                Rozwój Aplikacji Internetowych w&nbsp;Medycynie oraz Hurtownie i Eksploracja Danych stworzono poniższą
+                ankietę w celu zbadania wpływu teleporady na jakość świadczonych usług medycznych. Ankieta jest
+                anonimowa. Przeanalizowane dane wraz z&nbsp;wnioskami zostaną udostępnione na stronie w dniu 19.05.2022
+                r.</p>
+            <br/>
+            <form action="/general">
+                <input type="submit" class="button" value="Przejdź do ankiety"/>
+            </form>
+        </div>
+    </div>
+</div>
 </html>
