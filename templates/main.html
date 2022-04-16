@@ -1,7 +1,30 @@
-{% extends 'base.html' %}
-{% block content %}
-<h1>
-    <a href="{% url 'general' %}">Przejdź do ankiety</a>
-</h1>
-{% endblock content %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+body, html {
+  height: 100%;
+  margin: 0;
+}
 
+.bg {
+  /* The image used */
+  background-image: url('{% static 'img/background.png'%}');
+
+  /* Full height */
+  height: 100%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+</style>
+    <title>Teleporada|Ankieta</title>
+</head>
+
+ <div class="bg">
+ </div>
+</html>
