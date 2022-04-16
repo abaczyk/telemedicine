@@ -1,17 +1,6 @@
 from django.db import models
 
 
-class AllGroups(models.Model):
-    didTechnicalProblemsOccur = models.BooleanField()
-    eConsultationVsVisit = models.CharField(max_length=100)
-    eConsultationAsStandard = models.CharField(max_length=100)
-    accessibilityVsLimitingEConsults = models.CharField(max_length=100)
-    eConsultationVsChildren = models.CharField(max_length=100)
-    queuesAndVisits = models.CharField(max_length=100)
-    whoDecidesWhichForm = models.CharField(max_length=100)
-    comments = models.TextField()
-
-
 class General(models.Model):
     gender = models.CharField(max_length=100)
     age = models.CharField(max_length=100)
@@ -19,10 +8,16 @@ class General(models.Model):
     whoIsRespondent = models.CharField(max_length=100)
 
 
+# class PreparationForEConsultation(models.Model):  # TODO zobaczyć jak to wygląda dla MultipleChoiceField
+#     isPESEL = models.BooleanField()
+#     isPenAndPaper = models.BooleanField()
+#     isSelfControlJournal = models.BooleanField()
+#     isTestResults = models.BooleanField()
+#     isListOfMedicine = models.BooleanField()
+#     isListOfQuestions = models.BooleanField()
 
 class Patient(models.Model):
-    respondentID = models.ForeignKey(General, on_delete=models.CASCADE)
-    allGroupsID = models.ForeignKey(AllGroups, on_delete=models.CASCADE, default=0)
+    respondentID = models.OneToOneField(General, on_delete=models.CASCADE)
     usePOZ = models.BooleanField()
     freqOfVisits = models.CharField(max_length=100)
     isPunctual = models.BooleanField()
@@ -30,24 +25,12 @@ class Patient(models.Model):
     isProblemResolved = models.BooleanField()
     wasVisitProposed = models.BooleanField()
     wereInstructionsClear = models.BooleanField()
-    useOfESickLeave = models.BooleanField()
-    useOfEPrescription = models.BooleanField()
-    useOfEReferral = models.BooleanField()
-
-
-class PreparationForEConsultation(): #TODO zobaczyć jak to wygląda dla MultipleChoiceField
-    patientID = models.ForeignKey(Patient, on_delete=models.CASCADE)
-    isPESEL = models.BooleanField()
-    isPenAndPaper = models.BooleanField()
-    isSelfControlJournal = models.BooleanField()
-    isTestResults = models.BooleanField()
-    isListOfMedicine = models.BooleanField()
-    isListOfQuestions = models.BooleanField()
+    useOfETechniques = models.BooleanField()
+    isPreparedBeforeEConsultation = models.BooleanField()
 
 
 class Doctor(models.Model):
-    respondentID = models.ForeignKey(General, on_delete=models.CASCADE)
-    allGroupsID = models.ForeignKey(AllGroups, on_delete=models.CASCADE, default=0)
+    respondentID = models.OneToOneField(General, on_delete=models.CASCADE)
     numberOfEConsults = models.IntegerField()
     technicalSkillsRating = models.IntegerField()
     howManyEConsultsNeedingVisits = models.IntegerField()
@@ -59,3 +42,15 @@ class Doctor(models.Model):
     eTechniquesAndTimeEfficiency = models.BooleanField()
     eTechniquesAndWorkEase = models.BooleanField()
     fearOfReturning = models.CharField(max_length=100)
+
+
+class AllGroups(models.Model):
+    respondentID = models.OneToOneField(General, on_delete=models.CASCADE)
+    didTechnicalProblemsOccur = models.BooleanField()
+    eConsultationVsVisit = models.CharField(max_length=100)
+    eConsultationAsStandard = models.CharField(max_length=100)
+    accessibilityVsLimitingEConsults = models.CharField(max_length=100)
+    eConsultationVsChildren = models.CharField(max_length=100)
+    queuesAndVisits = models.CharField(max_length=100)
+    whoDecidesWhichForm = models.CharField(max_length=100)
+    comments = models.TextField()

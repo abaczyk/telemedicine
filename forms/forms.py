@@ -2,6 +2,8 @@ from crispy_forms.bootstrap import FormActions
 from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Button
+from django.core.exceptions import ValidationError
+from django.core.validators import int_list_validator
 from django.forms import ModelForm, models
 from django.utils.safestring import mark_safe
 from .models import General, Patient, Doctor, AllGroups
@@ -47,9 +49,11 @@ class GeneralForm(forms.ModelForm):
                 Submit('goNext', 'Przejdź dalej', css_class='btn-default'),
             )
         )
+
     class Meta:
         model = General
         fields = ['gender', 'age', 'residence', 'whoIsRespondent']
+
 
 class PatientForm(forms.ModelForm):
     options = [(True, 'Tak'), (False, 'Nie')]
@@ -57,7 +61,8 @@ class PatientForm(forms.ModelForm):
                                choices=options,
                                widget=forms.RadioSelect)
     freqOfVisits = forms.ChoiceField(label='Czy wizyty w POZ są:',
-                                     choices=[('Regular', 'Regularne (5-6 razy w roku)'), ('Occasional','Sporadyczne')],
+                                     choices=[('Regular', 'Regularne (5-6 razy w roku)'),
+                                              ('Occasional', 'Sporadyczne')],
                                      widget=forms.RadioSelect)
     isPunctual = forms.ChoiceField(label='Czy umawiając się na teleporadę pamiętał/a Pan/Pani o punktualności?',
                                    choices=options,
@@ -75,32 +80,27 @@ class PatientForm(forms.ModelForm):
                                          choices=options,
                                          widget=forms.RadioSelect)
     wereInstructionsClear = forms.ChoiceField(label='Czy lekarz w sposób jasny i zrozumiały udzielił Panu/Pani '
-                                                   'informacji na temat problemu zdrowotnego?',
-                                             choices=options,
-                                             widget=forms.RadioSelect)
-    purposeOfEConsultation = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
-                                                       label='W jakim celu zazwyczaj korzystał/a Pan/Pani z teleporady?',
-                                                       choices=[('prescription', 'przedłużenie recepty na leki stałe,'),
-                                                                ('consultOfTestResults', 'konsultacja wyników badań,'),
-                                                                ('referralToSpecialist',
-                                                                 'otrzymanie skierowania do lekarza specjalisty,'),
-                                                                ('generalConsultation',
-                                                                 'omówienie aktualnego stanu swojego zdrowia.')])
-    useOfETechniques = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
-                                                 label='Czy za pomocą teleporady otrzymał/a Pan/Pani:',
-                                                 choices=[('e-sickLeave', 'e-zwolnienie,'),
-                                                          ('e-presctiption', 'e-receptę,'),
-                                                          ('e-referral', 'e-skierowanie?')])
-    preparationBeforeConsultation = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
-                                                              label='Czy przygotował Pan/Pani do rozmowy z lekarzem: ',
-                                                              choices=[('PESEL', 'PESEL do identyfikacji tożsamości,'),
-                                                                       ('penAndPaper', 'kartkę i długopis,'),
-                                                                       ('self-controlJournal',
-                                                                        'dzienniczek samokontroli,'),
-                                                                       ('testResults', 'wyniki badań,'),
-                                                                       ('listOfMedicine', 'listę leków,'),
-                                                                       ('listOfQuestions',
-                                                                        'spis pytań do lekarza.')])
+                                                    'informacji na temat problemu zdrowotnego?',
+                                              choices=options,
+                                              widget=forms.RadioSelect)
+    purposeOfEConsultation = forms.ChoiceField(widget=forms.RadioSelect,
+                                               label='W jakim celu zazwyczaj korzystał/a Pan/Pani z teleporady?',
+                                               choices=[('prescription', 'przedłużenie recepty na leki stałe,'),
+                                                        ('consultOfTestResults', 'konsultacja wyników badań,'),
+                                                        ('referralToSpecialist',
+                                                         'otrzymanie skierowania do lekarza specjalisty,'),
+                                                        ('generalConsultation',
+                                                         'omówienie aktualnego stanu swojego zdrowia.')])
+    useOfETechniques = forms.ChoiceField(widget=forms.RadioSelect,
+                                         label='Czy za pomocą teleporady otrzymał/a Pan/Pani e-zwolnienie/e-receptę/'
+                                               'e-skierowanie?',
+                                         choices=options)
+    isPreparedBeforeEConsultation = forms.ChoiceField(widget=forms.RadioSelect,
+                                                      label='Czy przygotował się Pan/Pani do rozmowy z lekarzem? '
+                                                            '(np. miał/a Pan/pani przygotowany nr PESEL do '
+                                                            'weryfikacji tożsamości, kartkę i długopis, dzienniczek '
+                                                            'samokontroli, wyniki badań, listę leków)',
+                                                      choices=options)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -116,37 +116,51 @@ class PatientForm(forms.ModelForm):
             'wereInstructionsClear',
             'purposeOfEConsultation',
             'useOfETechniques',
-            'preparationBeforeConsultation',
+            'isPreparedBeforeEConsultation',
 
             FormActions(
                 Submit('goNext', 'Przejdź dalej', css_class='btn-default'),
             )
         )
+
     class Meta:
         model = Patient
         fields = ['usePOZ', 'freqOfVisits', 'correctDateOfEConsultation', 'isProblemResolved',
                   'wasVisitProposed', 'wereInstructionsClear', 'purposeOfEConsultation',
-                  'useOfETechniques', 'preparationBeforeConsultation']
+                  'useOfETechniques', 'isPreparedBeforeEConsultation']
 
 
+# TODO poprawić walidatory
 class DoctorForm(forms.ModelForm):
+
+    def checkIfInteger(value):
+        if type(value) != int:
+            raise ValidationError(
+                ('%(value) nie jest liczbą całkowitą'),
+                params={'value': value},
+            )
+
     options = [(True, 'Tak'), (False, 'Nie')]
-    numberOfEConsults = forms.CharField(widget=forms.TextInput, label=mark_safe('Przeciętna dzienna liczba: <br/>'
-                                                                                '1. teleporad: '))
-    numberOfVisits = forms.CharField(widget=forms.TextInput, label='wizyt stacjonarnych: ') #TODO dać wcięcie
+    numberOfEConsults = forms.CharField(widget=forms.TextInput, validators=[checkIfInteger],
+                                        label=mark_safe('Przeciętna dzienna liczba: <br/>'
+                                                        '1. teleporad: '))
+    numberOfVisits = forms.CharField(widget=forms.TextInput, validators=[checkIfInteger],
+                                     label='2. wizyt stacjonarnych: ')  # TODO dać wcięcie
     technicalSkillsRating = forms.ChoiceField(label='Jak Pan/Pani ocenia swoje umiejętności techniczne?',
                                               choices=[(1, 'bardzo źle'), (2, 'źle'), (3, 'przeciętnie'),
                                                        (4, 'dobrze'), (5, 'bardzo dobrze')],
                                               # TODO ustawić jedno obok drugiego
                                               widget=forms.RadioSelect)
-    howManyEConsultsNeedingVisits = forms.CharField(widget=forms.TextInput, label='Ile procent teleporad wymaga '
-                                                                                  'umówienia wizyty stacjonarnej?')
+    howManyEConsultsNeedingVisits = forms.CharField(widget=forms.TextInput, validators=[checkIfInteger],
+                                                    label='Ile procent teleporad wymaga '
+                                                          'umówienia wizyty stacjonarnej?')
 
     arePatientsPrepared = forms.ChoiceField(label='Czy pacjenci są przygotowani do rozmowy z lekarzem?',
                                             choices=options,
                                             widget=forms.RadioSelect)
-    howManyPatientsDontAnswer = forms.CharField(widget=forms.TextInput, label='Jaki procent pacjentów nie odbiera '
-                                                                              'telefonów?')
+    howManyPatientsDontAnswer = forms.CharField(widget=forms.TextInput, validators=[checkIfInteger],
+                                                label='Jaki procent pacjentów nie odbiera '
+                                                      'telefonów?')
 
     seriousnessOfPatients = forms.ChoiceField(label='Czy Pani/Pana zdaniem pacjenci traktują teleporady mniej poważnie '
                                                     'niż wizyty stacjonarne?',
@@ -163,10 +177,11 @@ class DoctorForm(forms.ModelForm):
                                      choices=options,
                                      widget=forms.RadioSelect)
 
-    eTechniquesAndTimeEfficiency = forms.ChoiceField(label=mark_safe('Czy stosowanie e-technik: e-recepty, e-skierowania, '
-                                                           'e-zwolnienia: <br/>1. powodują oszczędność czasu?'), #TODO dać wcięcie
-                                                     choices=options,
-                                                     widget=forms.RadioSelect)
+    eTechniquesAndTimeEfficiency = forms.ChoiceField(
+        label=mark_safe('Czy stosowanie e-technik: e-recepty, e-skierowania, '
+                        'e-zwolnienia: <br/>1. powodują oszczędność czasu?'),
+        choices=options,
+        widget=forms.RadioSelect)
 
     eTechniquesAndWorkEase = forms.ChoiceField(label='2. ułatwiają pracę?',
                                                choices=options,
@@ -207,6 +222,7 @@ class DoctorForm(forms.ModelForm):
                   'arePatientsPrepared', 'howManyPatientsDontAnswer', 'seriousnessOfPatients',
                   'cancellingIfNoContact', 'limitedTrust', 'eTechniquesAndTimeEfficiency', 'eTechniquesAndWorkEase',
                   'fearOfReturning']
+
 
 class AllGroupsForm(forms.ModelForm):
     options = [(True, 'Tak'), (False, 'Nie')]
@@ -271,4 +287,4 @@ class AllGroupsForm(forms.ModelForm):
         model = AllGroups
         fields = ['didTechnicalProblemsOccur', 'eConsultationVsVisit', 'eConsultationAsStandard',
                   'accessibilityVsLimitingEConsults', 'eConsultationVsChildren', 'queuesAndVisits',
-                  'whoDecidesWhichForm','comments']
+                  'whoDecidesWhichForm', 'comments']
