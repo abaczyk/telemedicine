@@ -4,7 +4,6 @@ from crispy_forms.layout import Layout, Submit, Button
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.safestring import mark_safe
-
 from .models import General, Patient, Doctor, AllGroups
 
 
@@ -132,7 +131,6 @@ class PatientForm(forms.ModelForm):
         fields = '__all__'
 
 
-# TODO poprawić walidatory
 class DoctorForm(forms.ModelForm):
     options = [(True, 'Tak'), (False, 'Nie')]
     options1 = [(True, 'Tak'), (False, 'Nie'), ('NoOpinion', 'Nie mam zdania')]
@@ -144,7 +142,6 @@ class DoctorForm(forms.ModelForm):
     technicalSkillsRating = forms.ChoiceField(label='Jak Pan/Pani ocenia swoje umiejętności techniczne? ',
                                               choices=[(1, 'bardzo źle'), (2, 'źle'), (3, 'przeciętnie'),
                                                        (4, 'dobrze'), (5, 'bardzo dobrze')],
-                                              # TODO ustawić jedno obok drugiego
                                               widget=forms.RadioSelect)
     howManyEConsultsNeedingVisits = forms.CharField(widget=forms.TextInput,
                                                     label='Ile procent teleporad wymaga '
