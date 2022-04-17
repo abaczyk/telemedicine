@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
+
 from .forms import GeneralForm, PatientForm, DoctorForm, AllGroupsForm
-from .models import General, Doctor, Patient
+from .models import General
 
 
 def main(request):
@@ -27,6 +28,7 @@ def patient(request):
     if request.method == 'POST':
         form = PatientForm(request.POST)
         context['form'] = form
+        general = General.objects.filter()
         if form.is_valid():
             form.save()
             return redirect('allGroups') #TODO naprawic
@@ -40,6 +42,7 @@ def doctor(request, args=None):
     if request.method == 'POST':
         form = DoctorForm(request.POST)
         context['form'] = form
+        general = General.objects.filter()
         if form.is_valid():
             form.save()
             return redirect('allGroups')
@@ -59,16 +62,6 @@ def allGroups(request):
         else:
             form = AllGroupsForm()
     return render(request, 'forms.html', context)
-
-
-# def allGroups(request):
-#     context = {'form': DoctorForm()}
-#     if request.method == 'POST':
-#         form = DoctorForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('thankYou')
-#     return render(request, 'forms.html', context)
 
 def thankYou(request):
     return render(request, 'thankYou.html')
