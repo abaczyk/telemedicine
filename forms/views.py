@@ -31,7 +31,7 @@ def patient(request):
         general = General.objects.filter()
         if form.is_valid():
             form.save()
-            return redirect('allGroups') #TODO naprawic
+            return redirect('allGroups')
         else:
             form = PatientForm()
     return render(request, 'forms.html', context)

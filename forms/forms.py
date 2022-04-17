@@ -9,18 +9,18 @@ from .models import General, Patient, Doctor, AllGroups
 
 
 class GeneralForm(forms.ModelForm):
-    gender = forms.ChoiceField(label='Płeć ',
+    gender = forms.ChoiceField(label='Płeć: ',
                                choices=[('kobieta', 'Kobieta'),
                                         ('mężczyzna', 'Mężczyzna'),
                                         ('wolę nie mówić', 'Wolę nie mówić')],
                                widget=forms.RadioSelect)
-    age = forms.ChoiceField(label='Wiek ',
+    age = forms.ChoiceField(label='Wiek: ',
                             choices=[('18-25', '18-25'),
                                      ('26-35', '26-35'),
                                      ('51-65', '51-65'),
                                      ('>65', '> 65')],
                             widget=forms.RadioSelect)
-    residence = forms.ChoiceField(label='Miejsce zamieszkania ',
+    residence = forms.ChoiceField(label='Miejsce zamieszkania: ',
                                   choices=[('wieś', 'Wieś'),
                                            ('<10tys.', 'Miasto do 10 tys. mieszkańców'),
                                            ('<50tys.', 'Miasto do 50 tys. mieszkańców'),
@@ -28,7 +28,7 @@ class GeneralForm(forms.ModelForm):
                                            ('<500tys.', 'Miasto do 500 tys. mieszkańców'),
                                            ('>500tys.', 'Miasto powyżej 500 tys. mieszkańców')],
                                   widget=forms.RadioSelect)
-    whoIsRespondent = forms.ChoiceField(label='Jestem ',
+    whoIsRespondent = forms.ChoiceField(label='Jestem: ',
                                         choices=[('Pacjent', 'Pacjentem'),
                                                  ('Lekarz', 'Lekarzem')],
                                         widget=forms.RadioSelect)
@@ -81,7 +81,7 @@ class PatientForm(forms.ModelForm):
                                          choices=options,
                                          widget=forms.RadioSelect)
     wereInstructionsClear = forms.ChoiceField(label='Czy lekarz w sposób jasny i zrozumiały udzielił Panu/Pani '
-                                                    'informacji na temat problemu zdrowotnego? ',
+                                                    'informacji na temat problemu zdrowotnego?',
                                               choices=options,
                                               widget=forms.RadioSelect)
     purposeOfEConsultation = forms.ChoiceField(widget=forms.RadioSelect,
@@ -216,19 +216,19 @@ class DoctorForm(forms.ModelForm):
     def clean_numberOfEConsults(self):
         data = self.cleaned_data['numberOfEConsults']
         if not data.isdecimal():
-            raise ValidationError('Wpisana wartość nie jest liczbą całkowitą')
+            raise ValidationError('Wpisana wartość nie jest liczbą naturalną')
         return data
 
     def clean_numberOfVisits(self):
         data = self.cleaned_data['numberOfVisits']
         if not data.isdecimal():
-            raise ValidationError('Wpisana wartość nie jest liczbą całkowitą')
+            raise ValidationError('Wpisana wartość nie jest liczbą naturalną')
         return data
 
     def clean_howManyEConsultsNeedingVisits(self):
         data = self.cleaned_data['howManyEConsultsNeedingVisits']
         if not data.lstrip("-").isdigit():
-            raise ValidationError('Wpisana wartość nie jest liczbą całkowitą')
+            raise ValidationError('Wpisana wartość nie jest liczbą naturalną')
         else:
             if int(data) < 0 or int(data) > 100:
                 raise ValidationError('Wpisana wartość jest spoza zakresu 0-100')
@@ -237,7 +237,7 @@ class DoctorForm(forms.ModelForm):
     def clean_howManyPatientsDontAnswer(self):
         data = self.cleaned_data['howManyPatientsDontAnswer']
         if not data.lstrip("-").isdigit():
-            raise ValidationError('Wpisana wartość nie jest liczbą całkowitą')
+            raise ValidationError('Wpisana wartość nie jest liczbą naturalną')
         else:
             if int(data) < 0 or int(data) > 100:
                 raise ValidationError('Wpisana wartość jest spoza zakresu 0-100')
