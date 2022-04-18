@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from .forms import GeneralForm, PatientForm, DoctorForm, AllGroupsForm
 from .models import Patient, General, Doctor, AllGroups
 
-sessionKey = None;
+sessionKey = None
 
 def main(request):
     if AllGroups.objects.filter(sessionKey=request.session.session_key).exists():
@@ -13,7 +13,8 @@ def main(request):
 def getSession(form, request):
     if not request.session.session_key:
         request.session.create()
-        return request.session.session_key
+        sessionKey = request.session.session_key
+        return sessionKey
     else:
         form.instance.sessionKey = request.session.session_key
         return form.instance.sessionKey
@@ -47,7 +48,7 @@ def patient(request):
     context = {'form': PatientForm()}
     if request.method == 'POST':
         form = PatientForm(request.POST)
-        form.instance.sessionKey = getSession(form,request)
+        form.instance.sessionKey = getSession(form, request)
         form.instance.respondentId_id = General.objects.get(sessionKey=form.instance.sessionKey).id
         #obsługa cofania
         query_set = Patient.objects.filter(sessionKey=request.session.session_key)
