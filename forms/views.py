@@ -97,7 +97,6 @@ def allGroups(request):
         context['form'] = form
         if form.is_valid():
             form.save()
-            print(request.session.session_key)
             return redirect('thankYou')
         else:
             form = AllGroupsForm()

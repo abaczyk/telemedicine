@@ -10,9 +10,9 @@ from .models import General, Patient, Doctor, AllGroups
 
 class GeneralForm(forms.ModelForm):
     gender = forms.ChoiceField(label='Płeć: ',
-                               choices=[('kobieta', 'Kobieta'),
-                                        ('mężczyzna', 'Mężczyzna'),
-                                        ('wolę nie mówić', 'Wolę nie mówić')],
+                               choices=[('female', 'Kobieta'),
+                                        ('male', 'Mężczyzna'),
+                                        ('preferNotToSay', 'Wolę nie mówić')],
                                widget=forms.RadioSelect)
     age = forms.ChoiceField(label='Wiek: ',
                             choices=[('18-25', '18-25'),
@@ -22,15 +22,15 @@ class GeneralForm(forms.ModelForm):
                             widget=forms.RadioSelect)
     residence = forms.ChoiceField(label='Miejsce zamieszkania: ',
                                   choices=[('wieś', 'Wieś'),
-                                           ('<10tys.', 'Miasto do 10 tys. mieszkańców'),
-                                           ('<50tys.', 'Miasto do 50 tys. mieszkańców'),
-                                           ('<100tys.', 'Miasto do 100 tys. mieszkańców'),
-                                           ('<500tys.', 'Miasto do 500 tys. mieszkańców'),
-                                           ('>500tys.', 'Miasto powyżej 500 tys. mieszkańców')],
+                                           ('<10k', 'Miasto do 10 tys. mieszkańców'),
+                                           ('<50k', 'Miasto do 50 tys. mieszkańców'),
+                                           ('<100k', 'Miasto do 100 tys. mieszkańców'),
+                                           ('<500k', 'Miasto do 500 tys. mieszkańców'),
+                                           ('>500k.', 'Miasto powyżej 500 tys. mieszkańców')],
                                   widget=forms.RadioSelect)
     whoIsRespondent = forms.ChoiceField(label='Jestem: ',
-                                        choices=[('Pacjent', 'Pacjentem'),
-                                                 ('Lekarz', 'Lekarzem')],
+                                        choices=[('patient', 'Pacjentem'),
+                                                 ('doctor', 'Lekarzem')],
                                         widget=forms.RadioSelect)
 
     def __init__(self, *args, **kwargs):

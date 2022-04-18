@@ -1,5 +1,4 @@
 from django.db import models
-from django.http import request
 
 
 class General(models.Model):
@@ -9,7 +8,6 @@ class General(models.Model):
     age = models.CharField(max_length=100)
     residence = models.CharField(max_length=100)
     whoIsRespondent = models.CharField(max_length=100)
-
 
 def default_general():
 
