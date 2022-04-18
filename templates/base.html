@@ -47,7 +47,7 @@
 
         .textInput {
             border-radius: 20px;
-            border-color: #125eba;
+            border-color: #ccc;
             padding: 5px 5px;
         }
 
@@ -60,7 +60,7 @@
             margin-left: auto;
             margin-right: auto;
             padding-left: 30px;
-            padding-right: 30px;
+            padding-right: 20px;
             padding-top: 2%;
             font-family: 'Open Sans', sans-serif;
             line-height: 2;
@@ -68,11 +68,17 @@
             text-align: justify;
         }
 
+        .buttons{
+            justify-content: center;
+            display: flex;
+            flex-direction: row;
+        }
+
         .button {
             position: relative;
             background-color: #283e9b;
-            left: 40%;
-            transform: translate(-50%, -50%);
+            {#left: 40%;#}
+            {#transform: translate(-50%, -50%);#}
             border-radius: 20px;
             border-style: none;
             box-sizing: border-box;
@@ -103,8 +109,8 @@
 
         .buttonBack {
             position: relative;
-            left: 40%;
-            transform: translate(-50%, -50%);
+            {#left: 40%;#}
+            {#transform: translate(-50%, -50%);#}
             border-radius: 20px;
             border-style: none;
             background-color: #536bd3;
@@ -134,10 +140,6 @@
             color: white;
         }
 
-        .btn {
-            position: center;
-        }
-
         .invalid-feedback {
             font-size: smaller;
             color: #de212c;
@@ -152,6 +154,17 @@
         .text-muted {
             font-size: smaller;
             display: block;
+        }
+
+        textarea {
+          width: 100%;
+          height: 150px;
+          padding: 12px 20px;
+          box-sizing: border-box;
+          border: 2px solid #ccc;
+          border-radius: 20px;
+          background-color: #f8f8f8;
+          resize: none;
         }
 
     </style>

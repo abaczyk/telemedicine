@@ -1,9 +1,10 @@
 from crispy_forms.bootstrap import FormActions
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit, Button
+from crispy_forms.layout import Layout, Submit, Button, Div
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.safestring import mark_safe
+
 from .models import General, Patient, Doctor, AllGroups
 
 
@@ -43,10 +44,13 @@ class GeneralForm(forms.ModelForm):
             'residence',
             'whoIsRespondent',
 
-            FormActions(
-                Button('back', 'Wstecz', css_class='buttonBack',
-                       onClick="javascript:history.go(-1);"),
-                Submit('goNext', 'Dalej', css_class='button')
+            Div(
+                FormActions(
+                    Button('back', 'Wstecz', css_class='buttonBack ',
+                           onClick="javascript:history.go(-1);"),
+                    Submit('goNext', 'Dalej', css_class='button')
+                ),
+                css_class='buttons',
             )
         )
 
@@ -118,11 +122,13 @@ class PatientForm(forms.ModelForm):
             'purposeOfEConsultation',
             'useOfETechniques',
             'isPreparedBeforeEConsultation',
-
-            FormActions(
-                Button('back', 'Wstecz', css_class='buttonBack',
-                       onClick="javascript:history.go(-1);"),
-                Submit('goNext', 'Dalej', css_class='button')
+            Div(
+                FormActions(
+                    Button('back', 'Wstecz', css_class='buttonBack ',
+                           onClick="javascript:history.go(-1);"),
+                    Submit('goNext', 'Dalej', css_class='button')
+                ),
+                css_class='buttons',
             )
         )
 
@@ -203,10 +209,13 @@ class DoctorForm(forms.ModelForm):
             'eTechniquesAndTimeEfficiency',
             'eTechniquesAndWorkEase',
             'fearOfReturning',
-            FormActions(
-                Button('back', 'Wstecz', css_class='buttonBack',
-                       onClick="javascript:history.go(-1);"),
-                Submit('goNext', 'Dalej', css_class='button')
+            Div(
+                FormActions(
+                    Button('back', 'Wstecz', css_class='buttonBack ',
+                           onClick="javascript:history.go(-1);"),
+                    Submit('goNext', 'Dalej', css_class='button')
+                ),
+                css_class='buttons',
             )
         )
 
@@ -263,7 +272,8 @@ class AllGroupsForm(forms.ModelForm):
                                                 widget=forms.RadioSelect)
 
     accessibilityVsLimitingEConsults = forms.ChoiceField(
-        label='Czy ograniczenie teleporad spowoduje pogorszenie już i tak trudnego dostępu do lekarzy specjalistów? ',
+        label='Czy ograniczenie teleporad spowoduje pogorszenie już i tak trudnego dostępu do lekarzy specjalistów?',
+        # todo poprawić
         choices=options1,
         widget=forms.RadioSelect)
 
@@ -299,10 +309,13 @@ class AllGroupsForm(forms.ModelForm):
             'whoDecidesWhichForm',
             'comments',
 
-            FormActions(
-                Button('back', 'Wstecz', css_class='buttonBack',
-                       onClick="javascript:history.go(-1);"),
-                Submit('goNext', 'Dalej', css_class='button')
+            Div(
+                FormActions(
+                    Button('back', 'Wstecz', css_class='buttonBack ',
+                           onClick="javascript:history.go(-1);"),
+                    Submit('goNext', 'Dalej', css_class='button')
+                ),
+                css_class='buttons',
             )
         )
 
