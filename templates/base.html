@@ -11,7 +11,6 @@
         @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
 
-
         .bg {
             background-image: url('{% static 'img/backgroundForm.png'%}');
             height: 100%;
@@ -51,8 +50,7 @@
             padding: 5px 5px;
         }
 
-        .bg .content {
-            position: center;
+        .content {
             background: white;
             width: 60%;
             color: #4d5258;
@@ -77,8 +75,6 @@
         .button {
             position: relative;
             background-color: #283e9b;
-            {#left: 40%;#}
-            {#transform: translate(-50%, -50%);#}
             border-radius: 20px;
             border-style: none;
             box-sizing: border-box;
@@ -109,8 +105,6 @@
 
         .buttonBack {
             position: relative;
-            {#left: 40%;#}
-            {#transform: translate(-50%, -50%);#}
             border-radius: 20px;
             border-style: none;
             background-color: #536bd3;
@@ -166,9 +160,40 @@
           background-color: #f8f8f8;
           resize: none;
         }
+        .footer {
+            position: inherit;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 12px;
+            color: #324EC4;
+            text-align: center;
+        }
+        @media only screen
+        and (max-device-width: 480px)
+        and (-webkit-min-device-pixel-ratio: 2)
+        and (orientation: portrait) {
+            .content {
+                width: 100%;
+            }
 
+            .text {
+                font-size: 40px;
+            }
+
+            h1 {
+                font-size: 70px;
+            }
+
+            .button,
+            .buttonBack{
+                font-size: 16px;
+                padding: 16px;
+                border-radius: 20px;
+            }
+        }
     </style>
-    {#  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">#}
 </head>
 
 <body class="bg">
@@ -176,5 +201,8 @@
     {% block content %}
     {% endblock %}
 </div>
+<div class="footer">
+        <p>Anna Bączyk & Bartosz Czapla</p>
+    </div>
 </body>
 </html>
