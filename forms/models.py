@@ -13,7 +13,7 @@ class General(models.Model):
 
 def default_general():
 
-    return General.objects.latest('id').id  #TODO zmienić
+    return General.objects.latest('id').id
 
 
 class Patient(models.Model):
