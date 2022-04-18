@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-88u*zj0sfp#p6@dbmj)tlu0yq3b$uzl45*1_7_*cxu35n#5(ew
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['teleporada.herokuapp.com/', '127.0.0.1']
+ALLOWED_HOSTS = ['teleporada.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
@@ -46,7 +46,6 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -130,7 +129,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = 'static/'
 STATICFILES_DIRS=[os.path.join(BASE_DIR, 'static')]
 
