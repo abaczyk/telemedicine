@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-88u*zj0sfp#p6@dbmj)tlu0yq3b$uzl45*1_7_*cxu35n#5(ew'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['teleporada.herokuapp.com', '127.0.0.1']
 
