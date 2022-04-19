@@ -17,7 +17,9 @@ class GeneralForm(forms.ModelForm):
     age = forms.ChoiceField(label='Wiek: ',
                             choices=[('18-25', '18-25'),
                                      ('26-35', '26-35'),
-                                     ('51-65', '51-65'),
+                                     ('36-45', '36-45'),
+                                     ('46-55', '46-55'),
+                                     ('56-65', '56-65'),
                                      ('>65', '> 65')],
                             widget=forms.RadioSelect)
     residence = forms.ChoiceField(label='Miejsce zamieszkania: ',
