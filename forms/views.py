@@ -49,7 +49,7 @@ def patient(request):
     if request.method == 'POST':
         form = PatientForm(request.POST)
         form.instance.sessionKey = getSession(form, request)
-        form.instance.respondentId_id = General.objects.get(sessionKey=form.instance.sessionKey).id
+        form.instance.respondentID_id = General.objects.get(sessionKey=form.instance.sessionKey).id
         #obsługa cofania
         query_set = Patient.objects.filter(sessionKey=request.session.session_key)
         if query_set.exists():
@@ -57,6 +57,7 @@ def patient(request):
         context['form'] = form
         if form.is_valid():
             form.save()
+            # model_instance.save()
             return redirect('allGroups')
         else:
             form = PatientForm()
@@ -70,7 +71,7 @@ def doctor(request, args=None):
     if request.method == 'POST':
         form = DoctorForm(request.POST)
         form.instance.sessionKey = getSession(form,request)
-        form.instance.respondentId_id = General.objects.get(sessionKey=form.instance.sessionKey).id
+        form.instance.respondentID_id = General.objects.get(sessionKey=form.instance.sessionKey).id
         #obsługa cofania
         query_set = Doctor.objects.filter(sessionKey=request.session.session_key)
         if query_set.exists():
@@ -89,7 +90,7 @@ def allGroups(request):
     if request.method == 'POST':
         form = AllGroupsForm(request.POST)
         form.instance.sessionKey = getSession(form,request)
-        form.instance.respondentId_id = General.objects.get(sessionKey=form.instance.sessionKey).id
+        form.instance.respondentID_id = General.objects.get(sessionKey=form.instance.sessionKey).id
         #obsługa cofania
         query_set = AllGroups.objects.filter(sessionKey=request.session.session_key)
         if query_set.exists():
