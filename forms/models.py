@@ -9,6 +9,8 @@ class General(models.Model):
     residence = models.CharField(max_length=100)
     whoIsRespondent = models.CharField(max_length=100)
 
+def default_general():
+    return 0
 
 class Patient(models.Model):
     id = models.AutoField(primary_key=True)
