@@ -35,7 +35,7 @@ def general(request):
             query_set[query_set.count() - 1].delete()
         if form.is_valid():
             form.save()
-            if request.POST.get('whoIsRespondent') == 'Pacjent':
+            if request.POST.get('whoIsRespondent') == 'patient':
                 return redirect('patient')
             else:
                 return redirect('doctor')
