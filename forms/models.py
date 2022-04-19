@@ -9,15 +9,11 @@ class General(models.Model):
     residence = models.CharField(max_length=100)
     whoIsRespondent = models.CharField(max_length=100)
 
-def default_general():
-
-    return General.objects.latest('id').id
-
 
 class Patient(models.Model):
     id = models.AutoField(primary_key=True)
     sessionKey = models.CharField(max_length=100, editable=False)
-    respondentID = models.OneToOneField(General, on_delete=models.CASCADE, default=default_general, editable=False)
+    respondentID = models.OneToOneField(General, on_delete=models.CASCADE, editable=False)
     usePOZ = models.BooleanField()
     freqOfVisits = models.CharField(max_length=100)
     isPunctual = models.BooleanField()
@@ -32,7 +28,7 @@ class Patient(models.Model):
 
 class Doctor(models.Model):
     id = models.AutoField(primary_key=True)
-    respondentID = models.OneToOneField(General, on_delete=models.CASCADE, default=default_general, editable=False)
+    respondentID = models.OneToOneField(General, on_delete=models.CASCADE, editable=False)
     sessionKey = models.CharField(max_length=100, editable=False)
     numberOfEConsults = models.IntegerField()
     numberOfVisits = models.IntegerField()
@@ -50,7 +46,7 @@ class Doctor(models.Model):
 
 class AllGroups(models.Model):
     id = models.AutoField(primary_key=True)
-    respondentID = models.OneToOneField(General, on_delete=models.CASCADE, default=default_general, editable=False)
+    respondentID = models.OneToOneField(General, on_delete=models.CASCADE, editable=False)
     sessionKey = models.CharField(max_length=100, editable=False)
     didTechnicalProblemsOccur = models.BooleanField()
     eConsultationVsVisit = models.CharField(max_length=100)
