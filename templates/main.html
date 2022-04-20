@@ -2,7 +2,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
@@ -15,10 +14,10 @@
         .bg {
             background-image: url('{% static 'img/background.jpg'%}');
             height: 100%;
-            margin: 0;
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
+            background-attachment: fixed;
         }
 
 
@@ -33,6 +32,8 @@
             width: 50%;
             background: rgb(0, 0, 0);
             background: rgba(255, 255, 255);
+            min-height: 100vh;
+            overflow: auto;
         }
 
         .text {
@@ -46,8 +47,8 @@
             margin: 0;
             position: absolute;
             top: 50%;
-            -ms-transform: translateY(-50%);
             transform: translateY(-50%);
+            padding-bottom: 2.5rem;
         }
 
         h1 {
@@ -60,7 +61,6 @@
         }
 
         .button {
-            overflow: hidden;
             position: absolute;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -76,7 +76,7 @@
             height: 40px;
             line-height: 20px;
             list-style: none;
-            margin: 20px;
+            margin-top: 20px;
             outline: none;
             padding: 10px 16px;
             text-align: center;
@@ -103,10 +103,37 @@
             font-size: 12px;
             color: #324EC4;
             text-align: right;
+            height: 3rem;
+        }
+
+
+        @media only screen
+        and (max-device-height: 420px)
+        and (-webkit-min-device-pixel-ratio: 2)
+        and (orientation: landscape) {
+           h1 {
+                font-size: 3vw;
+            }
+
+            .content {
+                width: 75%;
+            }
+
+            .text {
+                top: 50%;
+                transform: translateY(-50%);
+                padding-left: 5%;
+                padding-right: 5%;
+            }
+            .footer{
+                bottom: 3vw;
+                position: relative;
+                transform: translateY(-50%);
+            }
         }
 
         @media only screen
-        and (max-device-width: 480px)
+        and (max-device-width: 920px)
         and (-webkit-min-device-pixel-ratio: 2)
         and (orientation: portrait) {
             .content {
@@ -114,37 +141,96 @@
             }
 
             .text {
-                font-size: 40px;
+                font-size: 4vw;
+                padding-left: 5%;
+                padding-right: 5%;
+                top: 50%;
+                transform: translateY(-50%);
             }
 
             h1 {
-                font-size: 70px;
+                font-size: 8vw;
             }
 
             .button {
                 font-size: 40px;
                 padding: 40px;
                 border-radius: 40px;
-                bottom: -4%;
             }
 
             .footer {
-                font-size: 25px;
+                bottom: 3vw;
+                position: relative;
+                transform: translateY(-50%);
             }
         }
+
+        {#iPad#}
+        @media only screen
+        and (min-device-width: 481px)
+        and (max-device-width: 1024px)
+        and (orientation: portrait) {
+            h1 {
+                font-size: 6vw;
+            }
+
+            .text {
+                font-size: 3vw;
+                top: 50%;
+                transform: translateY(-50%);
+                padding-left: 5%;
+                padding-right: 5%;
+            }
+
+            .footer {
+                bottom: 3vw;
+                position: relative;
+                transform: translateY(-50%);
+            }
+        }
+
+        @media only screen
+        and (min-device-width: 481px)
+        and (max-device-width: 1024px)
+        and (orientation: landscape) {
+            h1 {
+                font-size: 3vw;
+            }
+
+            .text {
+                padding-left: 5%;
+                padding-right: 5%;
+                top: 55%;
+                transform: translateY(-50%);
+            }
+
+            .content {
+                width: 75%;
+            }
+
+            .footer {
+                bottom: 3vw;
+                position: relative;
+                transform: translateY(-50%);
+            }
+        }
+
+
     </style>
+    <meta charset="UTF-8">
     <title>Teleporada | Ankieta</title>
     <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
 </head>
 <div class="bg">
     <div class="content">
         <div class="text">
-            <h1>Wpływ teleporady na&nbsp;jakość świadczonych usług medycznych w&nbsp;ocenie pacjentów oraz&nbsp;lekarzy</h1>
+            <h1>Wpływ teleporady na&nbsp;jakość świadczonych usług medycznych w&nbsp;ocenie pacjentów
+                oraz&nbsp;lekarzy</h1>
             <p>Jesteśmy studentami Politechniki Gdańskiej na kierunku Inżynieria Biomedyczna. W&nbsp;ramach przedmiotów
-                Rozwój Aplikacji Internetowych w&nbsp;Medycynie oraz&nbsp;Hurtownie i&nbsp;Eksploracja Danych stworzono poniższą
+                Rozwój Aplikacji Internetowych w&nbsp;Medycynie oraz&nbsp;Hurtownie i&nbsp;Eksploracja Danych stworzono
+                poniższą
                 ankietę w celu zbadania wpływu teleporady na jakość świadczonych usług medycznych. Ankieta jest
-                anonimowa. Przeanalizowane dane wraz z&nbsp;wnioskami zostaną udostępnione na&nbsp;stronie w dniu 19.05.2022
-                r. </p>
+                anonimowa.</p>
             <p>Ankieta będzie otwarta do 12.05.2022 r.</p>
             <p>
                 Wypełnienie ankiety zajmie około 5 minut.
@@ -154,9 +240,10 @@
                 <input type="submit" class="button" value="Przejdź do ankiety"/>
             </form>
         </div>
+        <div class="footer">
+            <p>Anna Bączyk & Bartosz Czapla</p>
+        </div>
     </div>
-    <div class="footer">
-        <p>Anna Bączyk & Bartosz Czapla</p>
-    </div>
+
 </div>
 </html>
