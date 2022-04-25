@@ -21,20 +21,18 @@ def getSession(form, request):
 
 
 def general(request):
-    #check if the form was submitted
-    if AllGroups.objects.filter(sessionKey=request.session.session_key).exists():
-        return redirect('thankYou')
     context = {'form': GeneralForm()}
     if request.method == 'POST':
         form = GeneralForm(request.POST)
         form.instance.sessionKey = getSession(form,request)
         context['form'] = form
-        #obsługa cofania
+        # obsługa cofania
         query_set = General.objects.filter(sessionKey=request.session.session_key)
         if query_set.exists():
             query_set[query_set.count() - 1].delete()
         if form.is_valid():
             form.save()
+            #przekierowanie w zależności od osoby, która wypełniła ankietę
             if request.POST.get('whoIsRespondent') == 'patient':
                 return redirect('patient')
             else:
@@ -57,7 +55,6 @@ def patient(request):
         context['form'] = form
         if form.is_valid():
             form.save()
-            # model_instance.save()
             return redirect('allGroups')
         else:
             form = PatientForm()

@@ -102,7 +102,7 @@ class PatientForm(forms.ModelForm):
                                                'e-skierowanie?',
                                          choices=options)
     isPreparedBeforeEConsultation = forms.ChoiceField(widget=forms.RadioSelect,
-                                                      label='Czy przygotował się Pan/Pani do rozmowy z lekarzem?'
+                                                      label='Czy przygotował się Pan/Pani do rozmowy z lekarzem? '
                                                             '(np. miał/a Pan/pani przygotowany nr PESEL do '
                                                             'weryfikacji tożsamości, kartkę i długopis, dzienniczek '
                                                             'samokontroli, wyniki badań, listę leków)',
@@ -315,7 +315,7 @@ class AllGroupsForm(forms.ModelForm):
                 FormActions(
                     Button('back', 'Wstecz', css_class='buttonBack ',
                            onClick="javascript:history.go(-1);"),
-                    Submit('goNext', 'Dalej', css_class='button')
+                    Submit('submit', 'Wyślij', css_class='button')
                 ),
                 css_class='buttons',
             )
