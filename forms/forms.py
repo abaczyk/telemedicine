@@ -10,9 +10,9 @@ from .models import General, Patient, Doctor, AllGroups
 
 class GeneralForm(forms.ModelForm):
     gender = forms.ChoiceField(label='Płeć:',
-                               choices=[('female', 'Kobieta'),
-                                        ('male', 'Mężczyzna'),
-                                        ('preferNotToSay', 'Wolę nie mówić')],
+                               choices=[('Female', 'Kobieta'),
+                                        ('Male', 'Mężczyzna'),
+                                        ('PreferNotToSay', 'Wolę nie mówić')],
                                widget=forms.RadioSelect)
     age = forms.ChoiceField(label='Wiek:',
                             choices=[('18-25', '18-25'),
@@ -23,13 +23,24 @@ class GeneralForm(forms.ModelForm):
                                      ('>65', '> 65')],
                             widget=forms.RadioSelect)
     residence = forms.ChoiceField(label='Miejsce zamieszkania:',
-                                  choices=[('wieś', 'Wieś'),
+                                  choices=[('Village', 'Wieś'),
                                            ('<10k', 'Miasto do 10 tys. mieszkańców'),
                                            ('<50k', 'Miasto do 50 tys. mieszkańców'),
                                            ('<100k', 'Miasto do 100 tys. mieszkańców'),
                                            ('<500k', 'Miasto do 500 tys. mieszkańców'),
                                            ('>500k.', 'Miasto powyżej 500 tys. mieszkańców')],
                                   widget=forms.RadioSelect)
+    employment = forms.ChoiceField(widget=forms.RadioSelect,
+                                   label='Status zatrudnienia: ',
+                                   choices=[('Employed', 'Pracujący'),
+                                            ('Unemployed', 'Bezrobotny'),
+                                            ('Student', 'Uczeń/student')])
+    education = forms.ChoiceField(widget=forms.RadioSelect,
+                                  label='Wykształcenie: ',
+                                  choices=[('Primary', 'Podstawowe'),
+                                           ('Vocational', 'Zasadnicze zawodowe'),
+                                           ('Secondary', 'Średnie'),
+                                           ('University', 'Wyższe')])
     whoIsRespondent = forms.ChoiceField(label='Jestem:',
                                         choices=[('patient', 'Pacjentem'),
                                                  ('doctor', 'Lekarzem')],
@@ -44,14 +55,14 @@ class GeneralForm(forms.ModelForm):
             'gender',
             'age',
             'residence',
+            'employment',
+            'education',
             'whoIsRespondent',
 
-            Div(
-                FormActions(
-                    Button('back', 'Wstecz', css_class='buttonBack ',
-                           onClick="javascript:history.go(-1);"),
-                    Submit('goNext', 'Dalej', css_class='button')
-                ),
+            FormActions(
+                Button('back', 'Wstecz', css_class='buttonBack ',
+                       onClick="javascript:history.go(-1);"),
+                Submit('goNext', 'Dalej', css_class='button'),
                 css_class='buttons',
             )
         )
@@ -63,6 +74,7 @@ class GeneralForm(forms.ModelForm):
 
 class PatientForm(forms.ModelForm):
     options = [(True, 'Tak'), (False, 'Nie')]
+    options1 = [(True, 'Tak'), (False, 'Nie'), ('NoOpinion', 'Nie mam zdania')]
     usePOZ = forms.ChoiceField(label='Czy korzysta Pan/Pani z Podstawowej Opieki Zdrowotnej?',
                                choices=options,
                                widget=forms.RadioSelect)
@@ -73,12 +85,19 @@ class PatientForm(forms.ModelForm):
     isPunctual = forms.ChoiceField(label='Czy umawiając się na teleporadę pamiętał/a Pan/Pani o punktualności?',
                                    choices=options,
                                    widget=forms.RadioSelect)
-    correctDateOfEConsultation = forms.ChoiceField(label='Czy teleporada odbyła się w terminie zgodnym z wyznaczonym '
-                                                         'przy rejestracji?',
+    whenWasEConsultation = forms.ChoiceField(widget=forms.RadioSelect, label='Kiedy przeważnie odbywała się teleporada '
+                                                                             'w odniesieniu do terminu rejestracji?',
+                                             choices=[('SameDay', 'Tego samego dnia'),
+                                                      ('NextDay', 'Następnego dnia'),
+                                                      ('Within3Days', 'W ciągu 3 kolejnych dni'),
+                                                      ('WithinWeek', 'W ciągu tygodnia'),
+                                                      ('Later', 'Później')])
+    correctDateOfEConsultation = forms.ChoiceField(label='Czy teleporada na ogół odbywała się w terminie zgodnym '
+                                                         'z wyznaczonym przy rejestracji?',
                                                    choices=options,
                                                    widget=forms.RadioSelect)
     isProblemResolved = forms.ChoiceField(label='Czy problem zdrowotny zgłoszony przez Pana/Panią drogą teleporady '
-                                                'został rozwiązany?',
+                                                'był w większości przypadku rozwiązany?',
                                           choices=options,
                                           widget=forms.RadioSelect)
     wasVisitProposed = forms.ChoiceField(label='Czy w sytuacji, gdy teleporada nie rozwiązała w pełni Pana/Pani '
@@ -89,6 +108,10 @@ class PatientForm(forms.ModelForm):
                                                     'informacji na temat problemu zdrowotnego?',
                                               choices=options,
                                               widget=forms.RadioSelect)
+    wasDoctorEngaged = forms.ChoiceField(widget=forms.RadioSelect,
+                                         label='Czy odczuł/a Pan/Pani, że zaangażowanie lekarza jest mniejsze przy '
+                                               'przeprowadzeniu teleporady niż w przypadku wizyty stacjonarnej?',
+                                         choices=options1)
     purposeOfEConsultation = forms.ChoiceField(widget=forms.RadioSelect,
                                                label='W jakim celu najczęściej korzystał/a Pan/Pani z teleporady?',
                                                choices=[('prescription', 'przedłużenie recepty na leki stałe,'),
@@ -107,6 +130,10 @@ class PatientForm(forms.ModelForm):
                                                             'weryfikacji tożsamości, kartkę i długopis, dzienniczek '
                                                             'samokontroli, wyniki badań, listę leków)',
                                                       choices=options)
+    fearOfViolatingConfidentiality = forms.ChoiceField(widget=forms.RadioSelect,
+                                                       label='Czy obawia się Pan/Pani problemów dotyczących utrzymania '
+                                                             'poufności informacji przekazanych podczas teleporady?',
+                                                       choices=options1)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -117,19 +144,20 @@ class PatientForm(forms.ModelForm):
             'usePOZ',
             'freqOfVisits',
             'isPunctual',
+            'whenWasEConsultation',
             'correctDateOfEConsultation',
             'isProblemResolved',
             'wasVisitProposed',
             'wereInstructionsClear',
+            'wasDoctorEngaged',
             'purposeOfEConsultation',
             'useOfETechniques',
             'isPreparedBeforeEConsultation',
-            Div(
-                FormActions(
-                    Button('back', 'Wstecz', css_class='buttonBack ',
-                           onClick="javascript:history.go(-1);"),
-                    Submit('goNext', 'Dalej', css_class='button')
-                ),
+            'fearOfViolatingConfidentiality',
+            FormActions(
+                Button('back', 'Wstecz', css_class='buttonBack ',
+                       onClick="javascript:history.go(-1);"),
+                Submit('goNext', 'Dalej', css_class='button'),
                 css_class='buttons',
             )
         )
@@ -142,20 +170,108 @@ class PatientForm(forms.ModelForm):
 class DoctorForm(forms.ModelForm):
     options = [(True, 'Tak'), (False, 'Nie')]
     options1 = [(True, 'Tak'), (False, 'Nie'), ('NoOpinion', 'Nie mam zdania')]
+    specializationOptions = [('None', 'Brak'),
+                             ('Allergology', 'Alergologia'),
+                             ('Anesthesiology and intensive care', 'Anestezjologia i intensywna terapia'),
+                             ('Angiology', 'Angiologia'),
+                             ('Audiology and phoniatrics', 'Audiologia i foniatria'),
+                             ('Balneology and physical medicine', 'Balneologia i medycyna fizykalna'),
+                             ('Paediatric surgery', 'Chirurgia dziecięca'),
+                             ('Thoracic surgery', 'Chirurgia klatki piersiowej'),
+                             ('Vascular Surgery', 'Chirurgia naczyniowa'),
+                             ('General Surgery', 'Chirurgia ogólna'),
+                             ('Oncology Surgery', 'Chirurgia onkologiczna'),
+                             ('Plastic Surgery', 'Chirurgia plastyczna'),
+                             ('Maxillofacial Surgery', 'Chirurgia szczękowo-twarzowa'),
+                             ('Lung diseases', 'Choroby płuc'),
+                             ('Lung diseases of children', 'Choroby płuc dzieci'),
+                             ('Internal diseases', 'Choroby wewnętrzne'),
+                             ('Infectious diseases', 'Choroby zakaźne'),
+                             ('Dermatology and venereology', 'Dermatologia i wenerologia'),
+                             ('Diabetology', 'Diabetologia'),
+                             ('Laboratory diagnostics', 'Diagnostyka laboratoryjna'),
+                             ('Endocrinology', 'Endokrynologia'),
+                             ('Gynecologic and reproductive endocrinology',
+                              'Endokrynologia ginekologiczna i rozrodczość'),
+                             ('Pediatric endocrinology and diabetology', 'Endokrynologia i diabetologia dziecięca'),
+                             ('Epidemiology', 'Epidemiologia'),
+                             ('Clinical pharmacology', 'Farmakologia kliniczna'),
+                             ('Gastroenterology', 'Gastroenterologia'),
+                             ('Paediatric gastroenterology', 'Gastroenterologia dziecięca'),
+                             ('Clinical genetics', 'Genetyka kliniczna'),
+                             ('Geriatrics', 'Geriatria'),
+                             ('Gynecology Oncology', 'Ginekologia onkologiczna'),
+                             ('Hematology', 'Hematologia'),
+                             ('Hypertensiology', 'Hipertensjologia'),
+                             ('Clinical immunology', 'Immunologia kliniczna'),
+                             ('Intensive care', 'Intensywna terapia'),
+                             ('Cardiac surgery', 'Kardiochirurgia'),
+                             ('Cardiology', 'Kardiologia'),
+                             ('Pediatric cardiology', 'Kardiologia dziecięca'),
+                             ('Aviation medicine', 'Medycyna lotnicza'),
+                             ('Maritime and tropical medicine', 'Medycyna morska i tropikalna'),
+                             ('Nuclear medicine', 'Medycyna nuklearna'),
+                             ('Palliative medicine', 'Medycyna paliatywna'),
+                             ('Occupational medicine', 'Medycyna pracy'),
+                             ('Emergency medicine', 'Medycyna ratunkowa'),
+                             ('Family medicine', 'Medycyna rodzinna'),
+                             ('Forensic medicine', 'Medycyna sądowa'),
+                             ('Sports medicine', 'Medycyna sportowa'),
+                             ('Medical microbiology', 'Mikrobiologia lekarska'),
+                             ('Nephrology', 'Nefrologia'),
+                             ('Paediatric nephrology', 'Nefrologia dziecięca'),
+                             ('Neonatology', 'Neonatologia'),
+                             ('Neurosurgery', 'Neurochirurgia'),
+                             ('Neurology', 'Neurologia'),
+                             ('Paediatric neurology', 'Neurologia dziecięca'),
+                             ('Neuropathology', 'Neuropatologia'),
+                             ('Ophthalmology', 'Okulistyka'),
+                             ('Paediatric oncology and haematology', 'Onkologia i hematologia dziecięca'),
+                             ('Clinical oncology', 'Onkologia kliniczna'),
+                             ('Orthopaedics and traumatology', 'Ortopedia i traumatologia narządu ruchu'),
+                             ('Otorhinolaryngology', 'Otorynolaryngologia'),
+                             ('Paediatric otorhinolaryngology', 'Otorynolaryngologia dziecięca'),
+                             ('Pathomorphology', 'Patomorfologia'),
+                             ('Pediatrics', 'Pediatria'),
+                             ('Metabolic pediatrics', 'Pediatria metaboliczna'),
+                             ('Perinatology', 'Perinatologia'),
+                             ('Obstetrics and Gynecology', 'Położnictwo i ginekologia'),
+                             ('Psychiatry', 'Psychiatria'),
+                             ('Child and adolescent psychiatry', 'Psychiatria dzieci i młodzieży'),
+                             ('Radiology and image diagnostics', 'Radiologia i diagnostyka obrazowa'),
+                             ('Radiation therapy', 'Radioterapia onkologiczna'),
+                             ('Medical rehabilitation', 'Rehabilitacja medyczna'),
+                             ('Rheumatology', 'Reumatologia'),
+                             ('Sexology', 'Seksuologia'),
+                             ('Clinical toxicology', 'Toksykologia kliniczna'),
+                             ('Clinical transfusionology', 'Transfuzjologia kliniczna'),
+                             ('Clinical transplantology', 'Transplantologia kliniczna'),
+                             ('Urology', 'Urologia'),
+                             ('Paediatric urology', 'Urologia dziecięca'),
+                             ('Public health', 'Zdrowie publiczne')]
+    yearsOfExperience = forms.CharField(widget=forms.TextInput,
+                                        label='Ile ma Pan/Pani lat doświadczenia?')
+    specialization = forms.ChoiceField(label='Wybierz specjalizację', widget=forms.Select,
+                                       choices=specializationOptions)
     numberOfEConsults = forms.CharField(widget=forms.TextInput,
                                         label=mark_safe('Przeciętna dzienna liczba: <br/>'
                                                         '&emsp;1. teleporad:'))
     numberOfVisits = forms.CharField(widget=forms.TextInput,
                                      label='&emsp;2. wizyt stacjonarnych:')
-    technicalSkillsRating = forms.ChoiceField(label='Jak Pan/Pani ocenia swoje umiejętności obsługi komputera?',
-                                              choices=[(1, 'bardzo źle'), (2, 'źle'), (3, 'przeciętnie'),
-                                                       (4, 'dobrze'), (5, 'bardzo dobrze')],
-                                              widget=forms.RadioSelect)
+
+    lengthOfEConsults = forms.CharField(widget=forms.TextInput,
+                                        label=mark_safe('Przeciętna długość w minutach: <br/>'
+                                                        '&emsp;1. teleporady:'))
+    lengthOfVisits = forms.CharField(widget=forms.TextInput,
+                                     label='&emsp;2. wizyty stacjonarnej:')
     howManyEConsultsNeedingVisits = forms.CharField(widget=forms.TextInput,
                                                     label='Ile procent teleporad miesięcznie wymaga '
                                                           'umówienia wizyty stacjonarnej?',
                                                     help_text="Wpisz liczbę całkowitą z zakresu 0-100")
-
+    technicalSkillsRating = forms.ChoiceField(label='Jak Pan/Pani ocenia swoje umiejętności obsługi komputera?',
+                                              choices=[(1, 'bardzo źle'), (2, 'źle'), (3, 'przeciętnie'),
+                                                       (4, 'dobrze'), (5, 'bardzo dobrze')],
+                                              widget=forms.RadioSelect)
     arePatientsPrepared = forms.ChoiceField(label='Czy pacjenci są przygotowani do rozmowy z lekarzem?',
                                             choices=options,
                                             widget=forms.RadioSelect)
@@ -171,7 +287,7 @@ class DoctorForm(forms.ModelForm):
                                               widget=forms.RadioSelect)
 
     cancellingIfNoContact = forms.ChoiceField(label='Czy brak kontaktu z pacjentem w ustalonym terminie powinien '
-                                                    'skutkować anulowaniem wizyty?',
+                                                    'skutkować anulowaniem teleporady?',
                                               choices=options,
                                               widget=forms.RadioSelect)
     limitedTrust = forms.ChoiceField(label='Czy lekarz, bazując jedynie na kontakcie werbalnym z pacjentem, '
@@ -189,20 +305,25 @@ class DoctorForm(forms.ModelForm):
                                                choices=options,
                                                widget=forms.RadioSelect)
 
-    fearOfReturning = forms.ChoiceField(label='Czy ma Pan/Pani obawy związane z powrotem do przeprowadzania wizyt TYLKO w '
-                                              'trybie stacjonarnym?',
-                                        choices=options,
-                                        widget=forms.RadioSelect)
+    fearOfReturning = forms.ChoiceField(
+        label='Czy ma Pan/Pani obawy związane z powrotem do przeprowadzania wizyt TYLKO w '
+              'trybie stacjonarnym?',
+        choices=options,
+        widget=forms.RadioSelect)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper
         self.helper.form_method = 'post'
         self.helper.layout = Layout(
+            'yearsOfExperience',
+            'specialization',
             'numberOfEConsults',
             'numberOfVisits',
-            'technicalSkillsRating',
+            'lengthOfEConsults',
+            'lengthOfVisits',
             'howManyEConsultsNeedingVisits',
+            'technicalSkillsRating',
             'arePatientsPrepared',
             'howManyPatientsDontAnswer',
             'seriousnessOfPatients',
@@ -211,15 +332,20 @@ class DoctorForm(forms.ModelForm):
             'eTechniquesAndTimeEfficiency',
             'eTechniquesAndWorkEase',
             'fearOfReturning',
-            Div(
-                FormActions(
-                    Button('back', 'Wstecz', css_class='buttonBack ',
-                           onClick="javascript:history.go(-1);"),
-                    Submit('goNext', 'Dalej', css_class='button')
-                ),
+
+            FormActions(
+                Button('back', 'Wstecz', css_class='buttonBack ',
+                       onClick="javascript:history.go(-1);"),
+                Submit('goNext', 'Dalej', css_class='button'),
                 css_class='buttons',
             )
         )
+
+    def clean_yearsOfExperience(self):
+        data = self.cleaned_data['yearsOfExperience']
+        if not data.isdecimal():
+            raise ValidationError('Wpisana wartość nie jest liczbą naturalną')
+        return data
 
     def clean_numberOfEConsults(self):
         data = self.cleaned_data['numberOfEConsults']
@@ -229,6 +355,18 @@ class DoctorForm(forms.ModelForm):
 
     def clean_numberOfVisits(self):
         data = self.cleaned_data['numberOfVisits']
+        if not data.isdecimal():
+            raise ValidationError('Wpisana wartość nie jest liczbą naturalną')
+        return data
+
+    def clean_lengthOfEConsults(self):
+        data = self.cleaned_data['lengthOfEConsults']
+        if not data.isdecimal():
+            raise ValidationError('Wpisana wartość nie jest liczbą naturalną')
+        return data
+
+    def clean_lengthOfVisits(self):
+        data = self.cleaned_data['lengthOfVisits']
         if not data.isdecimal():
             raise ValidationError('Wpisana wartość nie jest liczbą naturalną')
         return data
@@ -311,12 +449,10 @@ class AllGroupsForm(forms.ModelForm):
             'whoDecidesWhichForm',
             'comments',
 
-            Div(
-                FormActions(
-                    Button('back', 'Wstecz', css_class='buttonBack ',
-                           onClick="javascript:history.go(-1);"),
-                    Submit('submit', 'Wyślij', css_class='button')
-                ),
+            FormActions(
+                Button('back', 'Wstecz', css_class='buttonBack ',
+                       onClick="javascript:history.go(-1);"),
+                Submit('goNext', 'Dalej', css_class='button'),
                 css_class='buttons',
             )
         )

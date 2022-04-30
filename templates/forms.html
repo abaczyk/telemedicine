@@ -54,7 +54,6 @@
         }
 
         .content {
-            background: white;
             width: 60%;
             color: #4d5258;
             display: block;
@@ -172,6 +171,19 @@
             color: #324EC4;
             text-align: center;
         }
+        .custom-select{
+            border-radius: 20px;
+            border-color: #ccc;
+            padding: 5px 5px;
+            border-style: solid;
+            font-family: 'Open Sans', sans-serif;
+        }
+        .form-group {
+            background-color: white;
+            border-radius: 20px;
+            padding: 5%;
+            margin: 2%;
+        }
         @media only screen
         and (max-device-width: 920px)
         and (-webkit-min-device-pixel-ratio: 2)
@@ -199,13 +211,13 @@
 </head>
 
 <body class="bg">
-<div class="content">
-    {% block content %}
-        {% crispy form form.helper %}
-    {% endblock %}
-</div><div class="footer">
-        <p>Anna Bączyk & Bartosz Czapla</p>
+    <div class="content">
+        {% block content %}
+            {% crispy form form.helper %}
+        {% endblock %}
     </div>
-
+    <div class="footer">
+            <p>Anna Bączyk & Bartosz Czapla</p>
+        </div>
 </body>
 </html>
