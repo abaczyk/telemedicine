@@ -1,6 +1,6 @@
 from crispy_forms.bootstrap import FormActions
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit, Button, Div
+from crispy_forms.layout import Layout, Submit, Button
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.safestring import mark_safe

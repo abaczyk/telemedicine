@@ -33,7 +33,7 @@ def general(request):
         if form.is_valid():
             form.save()
             #przekierowanie w zależności od osoby, która wypełniła ankietę
-            if request.POST.get('whoIsRespondent') == 'patient':
+            if request.POST.get('whoIsRespondent') == 'Patient':
                 return redirect('patient')
             else:
                 return redirect('doctor')
