@@ -28,7 +28,7 @@ class GeneralForm(forms.ModelForm):
                                            ('<50k', 'Miasto do 50 tys. mieszkańców'),
                                            ('<100k', 'Miasto do 100 tys. mieszkańców'),
                                            ('<500k', 'Miasto do 500 tys. mieszkańców'),
-                                           ('>500k.', 'Miasto powyżej 500 tys. mieszkańców')],
+                                           ('>500k', 'Miasto powyżej 500 tys. mieszkańców')],
                                   widget=forms.RadioSelect)
     employment = forms.ChoiceField(widget=forms.RadioSelect,
                                    label='Status zatrudnienia: ',
@@ -42,8 +42,8 @@ class GeneralForm(forms.ModelForm):
                                            ('Secondary', 'Średnie'),
                                            ('University', 'Wyższe')])
     whoIsRespondent = forms.ChoiceField(label='Jestem:',
-                                        choices=[('patient', 'Pacjentem'),
-                                                 ('doctor', 'Lekarzem')],
+                                        choices=[('Patient', 'Pacjentem'),
+                                                 ('Doctor', 'Lekarzem')],
                                         widget=forms.RadioSelect)
 
     def __init__(self, *args, **kwargs):
@@ -114,12 +114,12 @@ class PatientForm(forms.ModelForm):
                                          choices=options1)
     purposeOfEConsultation = forms.ChoiceField(widget=forms.RadioSelect,
                                                label='W jakim celu najczęściej korzystał/a Pan/Pani z teleporady?',
-                                               choices=[('prescription', 'przedłużenie recepty na leki stałe,'),
-                                                        ('consultOfTestResults', 'konsultacja wyników badań,'),
-                                                        ('referralToSpecialist',
-                                                         'otrzymanie skierowania do lekarza specjalisty,'),
-                                                        ('generalConsultation',
-                                                         'omówienie aktualnego stanu swojego zdrowia.')])
+                                               choices=[('Prescription', 'Przedłużenie recepty na leki stałe,'),
+                                                        ('ConsultOfTestResults', 'Konsultacja wyników badań,'),
+                                                        ('ReferralToSpecialist',
+                                                         'Otrzymanie skierowania do lekarza specjalisty,'),
+                                                        ('GeneralConsultation',
+                                                         'Omówienie aktualnego stanu swojego zdrowia.')])
     useOfETechniques = forms.ChoiceField(widget=forms.RadioSelect,
                                          label='Czy za pomocą teleporady otrzymał/a Pan/Pani e-zwolnienie/e-receptę/'
                                                'e-skierowanie?',
@@ -269,8 +269,8 @@ class DoctorForm(forms.ModelForm):
                                                           'umówienia wizyty stacjonarnej?',
                                                     help_text="Wpisz liczbę całkowitą z zakresu 0-100")
     technicalSkillsRating = forms.ChoiceField(label='Jak Pan/Pani ocenia swoje umiejętności obsługi komputera?',
-                                              choices=[(1, 'bardzo źle'), (2, 'źle'), (3, 'przeciętnie'),
-                                                       (4, 'dobrze'), (5, 'bardzo dobrze')],
+                                              choices=[(1, 'Bardzo źle'), (2, 'źle'), (3, 'Przeciętnie'),
+                                                       (4, 'Dobrze'), (5, 'Bardzo dobrze')],
                                               widget=forms.RadioSelect)
     arePatientsPrepared = forms.ChoiceField(label='Czy pacjenci są przygotowani do rozmowy z lekarzem?',
                                             choices=options,
