@@ -5,26 +5,22 @@ from .models import Patient, General, Doctor, AllGroups
 
 sessionKey = None
 
+
 def main(request):
-    if AllGroups.objects.filter(sessionKey=request.session.session_key).exists():
-        return redirect('thankYou')
     return render(request, 'main.html')
 
-def getSession(form, request):
-    if not request.session.session_key:
-        request.session.create()
-        sessionKey = request.session.session_key
-        return sessionKey
-    else:
-        form.instance.sessionKey = request.session.session_key
-        return form.instance.sessionKey
+
+def getSession(request):
+    request.session.create()
+    sessionKey = request.session.session_key
+    return sessionKey
 
 
 def general(request):
     context = {'form': GeneralForm()}
     if request.method == 'POST':
         form = GeneralForm(request.POST)
-        form.instance.sessionKey = getSession(form,request)
+        form.instance.sessionKey = getSession(request)
         context['form'] = form
         # obsługa cofania
         query_set = General.objects.filter(sessionKey=request.session.session_key)
@@ -32,7 +28,7 @@ def general(request):
             query_set[query_set.count() - 1].delete()
         if form.is_valid():
             form.save()
-            #przekierowanie w zależności od osoby, która wypełniła ankietę
+            # przekierowanie w zależności od osoby, która wypełniła ankietę
             if request.POST.get('whoIsRespondent') == 'Patient':
                 return redirect('patient')
             else:
@@ -46,9 +42,9 @@ def patient(request):
     context = {'form': PatientForm()}
     if request.method == 'POST':
         form = PatientForm(request.POST)
-        form.instance.sessionKey = getSession(form, request)
+        form.instance.sessionKey = request.session.session_key
         form.instance.respondentID_id = General.objects.get(sessionKey=form.instance.sessionKey).id
-        #obsługa cofania
+        # obsługa cofania
         query_set = Patient.objects.filter(sessionKey=request.session.session_key)
         if query_set.exists():
             query_set[query_set.count() - 1].delete()
@@ -61,15 +57,13 @@ def patient(request):
     return render(request, 'forms.html', context)
 
 
-def doctor(request, args=None):
-    if AllGroups.objects.filter(sessionKey=request.session.session_key).exists():
-        return redirect('thankYou')
+def doctor(request):
     context = {'form': DoctorForm()}
     if request.method == 'POST':
         form = DoctorForm(request.POST)
-        form.instance.sessionKey = getSession(form,request)
+        form.instance.sessionKey = request.session.session_key
         form.instance.respondentID_id = General.objects.get(sessionKey=form.instance.sessionKey).id
-        #obsługa cofania
+        # obsługa cofania
         query_set = Doctor.objects.filter(sessionKey=request.session.session_key)
         if query_set.exists():
             query_set[query_set.count() - 1].delete()
@@ -86,9 +80,9 @@ def allGroups(request):
     context = {'form': AllGroupsForm()}
     if request.method == 'POST':
         form = AllGroupsForm(request.POST)
-        form.instance.sessionKey = getSession(form,request)
+        form.instance.sessionKey = request.session.session_key
         form.instance.respondentID_id = General.objects.get(sessionKey=form.instance.sessionKey).id
-        #obsługa cofania
+        # obsługa cofania
         query_set = AllGroups.objects.filter(sessionKey=request.session.session_key)
         if query_set.exists():
             query_set[query_set.count() - 1].delete()
