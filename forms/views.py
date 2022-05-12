@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.shortcuts import render, redirect
 
 from .forms import GeneralForm, PatientForm, DoctorForm, AllGroupsForm
@@ -7,6 +9,9 @@ sessionKey = None
 
 
 def main(request):
+    #close forms after 13.05.2022
+    if str(datetime.now()) > "2022-05-13 00:00:00.0000":
+        return render(request, 'closedForms.html')
     return render(request, 'main.html')
 
 

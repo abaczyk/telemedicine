@@ -452,7 +452,7 @@ class AllGroupsForm(forms.ModelForm):
             FormActions(
                 Button('back', 'Wstecz', css_class='buttonBack ',
                        onClick="javascript:history.go(-1);"),
-                Submit('goNext', 'Dalej', css_class='button'),
+                Submit('goNext', 'Wyślij', css_class='button'),
                 css_class='buttons',
             )
         )
