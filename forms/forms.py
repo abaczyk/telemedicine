@@ -1,13 +1,16 @@
+"""# Anna Baczyk 180849, Bartosz Czapla 181486
+Plik umozliwiajacy tworzenie pol w poszczegolnych ankietach"""
+
 from crispy_forms.bootstrap import FormActions
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Button
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.safestring import mark_safe
-
 from .models import General, Patient, Doctor, AllGroups
 
 
+# tworzenie poszczegolnych pol w pytaniach ogolnych
 class GeneralForm(forms.ModelForm):
     gender = forms.ChoiceField(label='Płeć:',
                                choices=[('Female', 'Kobieta'),
@@ -51,6 +54,7 @@ class GeneralForm(forms.ModelForm):
         self.helper = FormHelper
         self.helper.form_method = 'post'
 
+        # wykorzystanie Crispy Forms do ulatwienia rozmieszczenia poszczegolnych pol
         self.helper.layout = Layout(
             'gender',
             'age',
@@ -59,6 +63,7 @@ class GeneralForm(forms.ModelForm):
             'education',
             'whoIsRespondent',
 
+            # utworzenie przyciskow cofania i przejscia dalej
             FormActions(
                 Button('back', 'Wstecz', css_class='buttonBack ',
                        onClick="javascript:history.go(-1);"),
@@ -72,6 +77,7 @@ class GeneralForm(forms.ModelForm):
         fields = '__all__'
 
 
+# tworzenie poszczegolnych pol w pytaniach dla pacjenta
 class PatientForm(forms.ModelForm):
     options = [(True, 'Tak'), (False, 'Nie')]
     options1 = [(True, 'Tak'), (False, 'Nie'), ('NoOpinion', 'Nie mam zdania')]
@@ -167,6 +173,7 @@ class PatientForm(forms.ModelForm):
         fields = '__all__'
 
 
+# tworzenie poszczegolnych pol w pytaniach dla lekarza
 class DoctorForm(forms.ModelForm):
     options = [(True, 'Tak'), (False, 'Nie')]
     options1 = [(True, 'Tak'), (False, 'Nie'), ('NoOpinion', 'Nie mam zdania')]
@@ -341,6 +348,7 @@ class DoctorForm(forms.ModelForm):
             )
         )
 
+    # sprawdzanie czy zostala podana poprawna wartosc (liczby naturalne)
     def clean_yearsOfExperience(self):
         data = self.cleaned_data['yearsOfExperience']
         if not data.isdecimal():
@@ -373,16 +381,18 @@ class DoctorForm(forms.ModelForm):
 
     def clean_howManyEConsultsNeedingVisits(self):
         data = self.cleaned_data['howManyEConsultsNeedingVisits']
-        if not data.lstrip("-").isdigit():
+        data = data.lstrip("%")
+        if not data.isdigit():
             raise ValidationError('Wpisana wartość nie jest liczbą naturalną')
         else:
-            if int(data) < 0 or int(data) > 100:
+            if int(data) < 0 or int(data) > 100: # sprawdzenie czy liczba miesci sie w zakresie 0 - 100
                 raise ValidationError('Wpisana wartość jest spoza zakresu 0-100')
         return data
 
     def clean_howManyPatientsDontAnswer(self):
         data = self.cleaned_data['howManyPatientsDontAnswer']
-        if not data.lstrip("-").isdigit():
+        data = data.lstrip("%")
+        if not data.isdigit():
             raise ValidationError('Wpisana wartość nie jest liczbą naturalną')
         else:
             if int(data) < 0 or int(data) > 100:
@@ -394,6 +404,7 @@ class DoctorForm(forms.ModelForm):
         fields = '__all__'
 
 
+# tworzenie poszczegolnych pol w pytaniach koncowych
 class AllGroupsForm(forms.ModelForm):
     options = [(True, 'Tak'), (False, 'Nie')]
     options1 = [(True, 'Tak'), (False, 'Nie'), ('NoOpinion', 'Nie mam zdania')]

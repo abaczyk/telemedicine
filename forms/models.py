@@ -1,3 +1,6 @@
+"""Anna Baczyk 180849, Bartosz Czapla 181486
+Plik zawierajacy informacje o polach w bazie danych"""
+
 from django.db import models
 
 
@@ -10,10 +13,6 @@ class General(models.Model):
     education = models.CharField(max_length=100)
     employment = models.CharField(max_length=100)
     whoIsRespondent = models.CharField(max_length=100)
-
-
-def default_general():
-    return None
 
 
 class Patient(models.Model):
