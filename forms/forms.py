@@ -10,8 +10,8 @@ from django.utils.safestring import mark_safe
 from .models import General, Patient, Doctor, AllGroups
 
 
-# tworzenie poszczegolnych pol w pytaniach ogolnych
 class GeneralForm(forms.ModelForm):
+    """Tworzenie poszczegolnych pol w pytaniach ogolnych"""
     gender = forms.ChoiceField(label='Płeć:',
                                choices=[('Female', 'Kobieta'),
                                         ('Male', 'Mężczyzna'),
@@ -73,12 +73,13 @@ class GeneralForm(forms.ModelForm):
         )
 
     class Meta:
+        """Powiazanie bazy danych z pytaniami"""
         model = General
         fields = '__all__'
 
 
-# tworzenie poszczegolnych pol w pytaniach dla pacjenta
 class PatientForm(forms.ModelForm):
+    """Tworzenie poszczegolnych pol w pytaniach dla pacjenta"""
     options = [(True, 'Tak'), (False, 'Nie')]
     options1 = [(True, 'Tak'), (False, 'Nie'), ('NoOpinion', 'Nie mam zdania')]
     usePOZ = forms.ChoiceField(label='Czy korzysta Pan/Pani z Podstawowej Opieki Zdrowotnej?',
@@ -146,6 +147,7 @@ class PatientForm(forms.ModelForm):
         self.helper = FormHelper
         self.helper.form_method = 'post'
 
+        # wykorzystanie Crispy Forms do ulatwienia rozmieszczenia poszczegolnych pol
         self.helper.layout = Layout(
             'usePOZ',
             'freqOfVisits',
@@ -160,6 +162,8 @@ class PatientForm(forms.ModelForm):
             'useOfETechniques',
             'isPreparedBeforeEConsultation',
             'fearOfViolatingConfidentiality',
+
+            # utworzenie przyciskow cofania i przejscia dalej
             FormActions(
                 Button('back', 'Wstecz', css_class='buttonBack ',
                        onClick="javascript:history.go(-1);"),
@@ -169,12 +173,13 @@ class PatientForm(forms.ModelForm):
         )
 
     class Meta:
+        """Powiazanie bazy danych z pytaniami"""
         model = Patient
         fields = '__all__'
 
 
-# tworzenie poszczegolnych pol w pytaniach dla lekarza
 class DoctorForm(forms.ModelForm):
+    """Tworzenie poszczegolnych pol w pytaniach dla lekarza"""
     options = [(True, 'Tak'), (False, 'Nie')]
     options1 = [(True, 'Tak'), (False, 'Nie'), ('NoOpinion', 'Nie mam zdania')]
     specializationOptions = [('None', 'Brak'),
@@ -322,6 +327,8 @@ class DoctorForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper
         self.helper.form_method = 'post'
+
+        # wykorzystanie Crispy Forms do ulatwienia rozmieszczenia poszczegolnych pol
         self.helper.layout = Layout(
             'yearsOfExperience',
             'specialization',
@@ -340,6 +347,7 @@ class DoctorForm(forms.ModelForm):
             'eTechniquesAndWorkEase',
             'fearOfReturning',
 
+            # utworzenie przyciskow cofania i przejscia dalej
             FormActions(
                 Button('back', 'Wstecz', css_class='buttonBack ',
                        onClick="javascript:history.go(-1);"),
@@ -348,48 +356,55 @@ class DoctorForm(forms.ModelForm):
             )
         )
 
-    # sprawdzanie czy zostala podana poprawna wartosc (liczby naturalne)
+    # funkcje walidujace poprawnosc wprowadzonych danych
     def clean_yearsOfExperience(self):
+        """Sprawdzanie. czy zostala podana poprawna wartosc (liczby naturalne)"""
         data = self.cleaned_data['yearsOfExperience']
         if not data.isdecimal():
             raise ValidationError('Wpisana wartość nie jest liczbą naturalną')
         return data
 
     def clean_numberOfEConsults(self):
+        """Sprawdzanie, czy zostala podana poprawna wartosc (liczby naturalne)"""
         data = self.cleaned_data['numberOfEConsults']
         if not data.isdecimal():
             raise ValidationError('Wpisana wartość nie jest liczbą naturalną')
         return data
 
     def clean_numberOfVisits(self):
+        """Sprawdzanie, czy zostala podana poprawna wartosc (liczby naturalne)"""
         data = self.cleaned_data['numberOfVisits']
         if not data.isdecimal():
             raise ValidationError('Wpisana wartość nie jest liczbą naturalną')
         return data
 
     def clean_lengthOfEConsults(self):
+        """Sprawdzanie, czy zostala podana poprawna wartosc (liczby naturalne)"""
         data = self.cleaned_data['lengthOfEConsults']
         if not data.isdecimal():
             raise ValidationError('Wpisana wartość nie jest liczbą naturalną')
         return data
 
     def clean_lengthOfVisits(self):
+        """Sprawdzanie, czy zostala podana poprawna wartosc (liczby naturalne)"""
         data = self.cleaned_data['lengthOfVisits']
         if not data.isdecimal():
             raise ValidationError('Wpisana wartość nie jest liczbą naturalną')
         return data
 
     def clean_howManyEConsultsNeedingVisits(self):
+        """Sprawdzanie, czy zostala podana poprawna wartosc (liczby naturalne mniejsze od 100)"""
         data = self.cleaned_data['howManyEConsultsNeedingVisits']
         data = data.lstrip("%")
         if not data.isdigit():
             raise ValidationError('Wpisana wartość nie jest liczbą naturalną')
         else:
-            if int(data) < 0 or int(data) > 100: # sprawdzenie czy liczba miesci sie w zakresie 0 - 100
+            if int(data) < 0 or int(data) > 100:  # sprawdzenie czy liczba miesci sie w zakresie 0 - 100
                 raise ValidationError('Wpisana wartość jest spoza zakresu 0-100')
         return data
 
     def clean_howManyPatientsDontAnswer(self):
+        """Sprawdzanie, czy zostala podana poprawna wartosc (liczby naturalne mniejsze od 100)"""
         data = self.cleaned_data['howManyPatientsDontAnswer']
         data = data.lstrip("%")
         if not data.isdigit():
@@ -400,12 +415,13 @@ class DoctorForm(forms.ModelForm):
         return data
 
     class Meta:
+        """Powiazanie bazy danych z pytaniami"""
         model = Doctor
         fields = '__all__'
 
 
-# tworzenie poszczegolnych pol w pytaniach koncowych
 class AllGroupsForm(forms.ModelForm):
+    """Tworzenie poszczegolnych pol w pytaniach koncowych"""
     options = [(True, 'Tak'), (False, 'Nie')]
     options1 = [(True, 'Tak'), (False, 'Nie'), ('NoOpinion', 'Nie mam zdania')]
     didTechnicalProblemsOccur = forms.ChoiceField(label='Czy podczas teleporady występowały problemy z połączeniem '
@@ -450,6 +466,7 @@ class AllGroupsForm(forms.ModelForm):
         self.helper = FormHelper
         self.helper.form_method = 'post'
 
+        # wykorzystanie Crispy Forms do ulatwienia rozmieszczenia poszczegolnych pol
         self.helper.layout = Layout(
             'didTechnicalProblemsOccur',
             'eConsultationVsVisit',
@@ -460,6 +477,7 @@ class AllGroupsForm(forms.ModelForm):
             'whoDecidesWhichForm',
             'comments',
 
+            # utworzenie przyciskow cofania i przejscia dalej
             FormActions(
                 Button('back', 'Wstecz', css_class='buttonBack ',
                        onClick="javascript:history.go(-1);"),
@@ -469,5 +487,6 @@ class AllGroupsForm(forms.ModelForm):
         )
 
     class Meta:
+        """Powiazanie bazy danych z pytaniami"""
         model = AllGroups
         fields = '__all__'

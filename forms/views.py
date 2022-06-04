@@ -7,22 +7,22 @@ from .forms import GeneralForm, PatientForm, DoctorForm, AllGroupsForm
 from .models import Patient, General, Doctor, AllGroups
 
 
-# generowanie strony glownej
 def main(request):
+    """Generowanie strony glownej"""
     if str(datetime.now()) > "2022-05-13 00:00:00.0000":  # zamknij ankiete po 12.05.2022
         return render(request, 'closedForms.html')
     return render(request, 'main.html')
 
 
-# utworz klucz sesji
 def getSession(request):
+    """Tworzenie klucza sesji"""
     request.session.create()
     sessionKey = request.session.session_key
     return sessionKey
 
 
-# generowanie pytan ogolnych
 def general(request):
+    """Wyswietlanie pytan ogolnych"""
     context = {'form': GeneralForm()}
     if request.method == 'POST':
         form = GeneralForm(request.POST)
@@ -40,13 +40,11 @@ def general(request):
                 return redirect('patient')
             else:
                 return redirect('doctor')
-        else:
-            form = GeneralForm()
     return render(request, 'forms.html', context)
 
 
-# generowanie pytan dla pacjenta
 def patient(request):
+    """Wyswietlanie pytan dla pacjenta"""
     context = {'form': PatientForm()}
     if request.method == 'POST':
         form = PatientForm(request.POST)
@@ -60,13 +58,11 @@ def patient(request):
         if form.is_valid():
             form.save()
             return redirect('allGroups')
-        else:
-            form = PatientForm()
     return render(request, 'forms.html', context)
 
 
-# generowanie pytan dla lekarza
 def doctor(request):
+    """Wyswietlanie pytan dla lekarza"""
     context = {'form': DoctorForm()}
     if request.method == 'POST':
         form = DoctorForm(request.POST)
@@ -80,13 +76,11 @@ def doctor(request):
         if form.is_valid():
             form.save()
             return redirect('allGroups')
-        else:
-            form = DoctorForm()
     return render(request, 'forms.html', context)
 
 
-# generowanie pytan koncowych
 def allGroups(request):
+    """Wyswietlanie pytan koncowych"""
     context = {'form': AllGroupsForm()}
     if request.method == 'POST':
         form = AllGroupsForm(request.POST)
@@ -100,11 +94,9 @@ def allGroups(request):
         if form.is_valid():
             form.save()
             return redirect('thankYou')
-        else:
-            form = AllGroupsForm()
     return render(request, 'forms.html', context)
 
 
-# generowanie podziekowania za wypelnienie ankiety
 def thankYou(request):
+    """Wyswietlanie podziekowania za wypelnienie ankiety"""
     return render(request, 'thankYou.html')

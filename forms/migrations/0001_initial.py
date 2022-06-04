@@ -39,7 +39,7 @@ class Migration(migrations.Migration):
                 ('purposeOfEConsultation', models.CharField(max_length=100)),
                 ('useOfETechniques', models.BooleanField()),
                 ('isPreparedBeforeEConsultation', models.BooleanField()),
-                ('respondentID', models.OneToOneField(default=forms.models.default_general, editable=False, on_delete=django.db.models.deletion.CASCADE, to='forms.General')),
+                ('respondentID', models.OneToOneField(editable=False, on_delete=django.db.models.deletion.CASCADE, to='forms.General')),
             ],
         ),
         migrations.CreateModel(
@@ -59,7 +59,7 @@ class Migration(migrations.Migration):
                 ('eTechniquesAndTimeEfficiency', models.BooleanField()),
                 ('eTechniquesAndWorkEase', models.BooleanField()),
                 ('fearOfReturning', models.CharField(max_length=100)),
-                ('respondentID', models.OneToOneField(default=forms.models.default_general, editable=False, on_delete=django.db.models.deletion.CASCADE, to='forms.General')),
+                ('respondentID', models.OneToOneField(editable=False, on_delete=django.db.models.deletion.CASCADE, to='forms.General')),
             ],
         ),
         migrations.CreateModel(
@@ -75,7 +75,7 @@ class Migration(migrations.Migration):
                 ('queuesAndVisits', models.CharField(max_length=100)),
                 ('whoDecidesWhichForm', models.CharField(max_length=100)),
                 ('comments', models.TextField()),
-                ('respondentID', models.OneToOneField(default=forms.models.default_general, editable=False, on_delete=django.db.models.deletion.CASCADE, to='forms.General')),
+                ('respondentID', models.OneToOneField(editable=False, on_delete=django.db.models.deletion.CASCADE, to='forms.General')),
             ],
         ),
     ]

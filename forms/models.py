@@ -18,7 +18,8 @@ class General(models.Model):
 class Patient(models.Model):
     id = models.AutoField(primary_key=True)
     sessionKey = models.CharField(max_length=100, editable=False)
-    respondentID = models.OneToOneField(General, on_delete=models.CASCADE, editable=False)
+    respondentID = models.OneToOneField(General, on_delete=models.CASCADE,
+                                        editable=False)  # powiazanie z tabela general za pomoca respondentID
     usePOZ = models.BooleanField()
     freqOfVisits = models.CharField(max_length=100)
     isPunctual = models.BooleanField()
@@ -36,7 +37,8 @@ class Patient(models.Model):
 
 class Doctor(models.Model):
     id = models.AutoField(primary_key=True)
-    respondentID = models.OneToOneField(General, on_delete=models.CASCADE, editable=False)
+    respondentID = models.OneToOneField(General, on_delete=models.CASCADE,
+                                        editable=False)  # powiazanie z tabela general za pomoca respondentID
     sessionKey = models.CharField(max_length=100, editable=False)
     yearsOfExperience = models.IntegerField()
     specialization = models.CharField(max_length=100)
@@ -58,7 +60,8 @@ class Doctor(models.Model):
 
 class AllGroups(models.Model):
     id = models.AutoField(primary_key=True)
-    respondentID = models.OneToOneField(General, on_delete=models.CASCADE, editable=False)
+    respondentID = models.OneToOneField(General, on_delete=models.CASCADE,
+                                        editable=False)  # powiazanie z tabela general za pomoca respondentID
     sessionKey = models.CharField(max_length=100, editable=False)
     didTechnicalProblemsOccur = models.BooleanField()
     eConsultationVsVisit = models.CharField(max_length=100)
