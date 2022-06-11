@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-88u*zj0sfp#p6@dbmj)tlu0yq3b$uzl45*1_7_*cxu35n#5(ew
 DEBUG = False
 
 ALLOWED_HOSTS = ['teleporada.herokuapp.com', '127.0.0.1']
-
+DEBUG_PROPAGATE_EXCEPTIONS = True
 
 # Application definition
 
@@ -129,4 +129,4 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 django_heroku.settings(locals())
-
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

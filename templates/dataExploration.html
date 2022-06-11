@@ -21,7 +21,7 @@
         <br/>1 - zmienne są wprost proporcjonalne
         <br/>0 - brak korelacji
         <br/>-1 - zmienne są odwrotnie proporcjonalne</p>
-    <img src="{% static "/img/correlation.jpg" %}" class="image" alt="Korelacja Pearsona"/>
+    <img src="{% static "img/correlation.jpg" %}" class="image" alt="Korelacja Pearsona"/>
     <p>Z wykresu można odczytać, że największa korelacja występuje między tym, czy instrukcje przekazane od lekarza były
         jasne, a tym, czy problem został rozwiązany podczas teleporady.</p>
     <h2 id="apriori">Algorytm Apriori</h2>
@@ -56,11 +56,11 @@
     <h2 id="dtree">Drzewo decyzyjne</h2>
     <p>W metodzie tej sprawdzono, jakie czynniki najbardziej wpływają na preferowaną formę usługi medycznej. Cechy
         najbardziej różnicujące klasy znajdują się bliżej korzenia drzewa decyzyjnego.</p>
-    <img src="{% static "img//graph_decision_tree.png" %}" class="image" alt="Drzewo decyzyjne"/>
+    <img src="{% static "img/graph_decision_tree.png" %}" class="image" alt="Drzewo decyzyjne"/>
     <p>Z drzewa można odczytać, że dla otrzymanych danych najbardziej różnicującą cechą jest utrzymanie teleporady jako
         standardu.</p>
     <p>Odnotowano skuteczność klasyfikacji równą 78.57%. Poniżej przedstawiono macierz błędów:</p>
-    <img src="{% static "img//Confusion matrix - decision tree.png" %}" class="matrix"
+    <img src="{% static "img/Confusion matrix - decision tree.png" %}" class="matrix"
          alt="Macierz błędów - drzewo decyzyjne"/>
     <p>Zaobserwowano, że klasyfikacja osób preferujących wizytę stacjonarną jest skuteczniejsza niż w przypadku osób
         preferujących teleporadę. Wskazuje na to mały odsetek, gdzie zamiast wizyty przyporządkowano teleporadę.</p>
@@ -72,16 +72,16 @@
         <i class="fas fa-arrow-left" id="prevBtn"></i>
         <i class="fas fa-arrow-right" id="nextBtn"></i>
         <div class="slide">
-            <img src="{% static "img//graph_random_forest_2.png" %}" class="image" id="lastClone" alt="">
-            <img src="{% static "img//graph_random_forest_0.png" %}" class="image" alt="">
-            <img src="{% static "img//graph_random_forest_1.png" %}" class="image" alt="">
-            <img src="{% static "img//graph_random_forest_2.png" %}" class="image" alt="">
-            <img src="{% static "img//graph_random_forest_0.png" %}" class="image" id="firstClone" alt="">
+            <img src="{% static "img/graph_random_forest_2.png" %}" class="image" id="lastClone" alt="">
+            <img src="{% static "img/graph_random_forest_0.png" %}" class="image" alt="">
+            <img src="{% static "img/graph_random_forest_1.png" %}" class="image" alt="">
+            <img src="{% static "img/graph_random_forest_2.png" %}" class="image" alt="">
+            <img src="{% static "img/graph_random_forest_0.png" %}" class="image" id="firstClone" alt="">
         </div>
     </div>
     <script src="{% static "slides.js" %}"></script>
     <p>Dla lasów losowych skuteczność klasyfikacji to 89.29%. Poniżej przedstawiono macierz błędów:</p>
-    <img src="{% static "img//Confusion matrix - random forest.png" %}" class="matrix"
+    <img src="{% static "img/Confusion matrix - random forest.png" %}" class="matrix"
          alt="Macierz błędów - lasy losowe"/>
     <p>W porównaniu do drzew decyzyjnych odsetek błędnych
         klasyfikacji jest znacznie mniejszy.</p>
