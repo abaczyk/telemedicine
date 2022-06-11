@@ -2,17 +2,22 @@
 Plik zawierajacy przetwarzanie zadan"""
 
 from datetime import datetime
+
 from django.shortcuts import render, redirect
 from .forms import GeneralForm, PatientForm, DoctorForm, AllGroupsForm
 from .models import Patient, General, Doctor, AllGroups
 
-
 def main(request):
     """Generowanie strony glownej"""
     if str(datetime.now()) > "2022-05-13 00:00:00.0000":  # zamknij ankiete po 12.05.2022
-        return render(request, 'closedForms.html')
+        return render(request, 'chooseResults.html')
     return render(request, 'main.html')
 
+def statistics(request):
+    return render(request, 'statistics.html')
+
+def data_exploration(request):
+    return render(request, 'dataExploration.html')
 
 def getSession(request):
     """Tworzenie klucza sesji"""
@@ -100,3 +105,9 @@ def allGroups(request):
 def thankYou(request):
     """Wyswietlanie podziekowania za wypelnienie ankiety"""
     return render(request, 'thankYou.html')
+
+
+
+
+
+

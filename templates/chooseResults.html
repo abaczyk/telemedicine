@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+    <link rel="stylesheet" href="{% static 'results.css' %}"/>
+    <style>
+        .bg {
+            background-image: url({% static 'img/background.jpg' %});
+        }
+
+        .buttons {
+            justify-content: space-evenly;
+            display: flex;
+            align-items: baseline;
+            padding-left: 30%;
+            padding-right: 30%;
+        }
+
+        .content {
+            top: 50%;
+            transform: translateY(30%);
+        }
+    </style>
+    <title>Teleporada | Ankieta</title>
+</head>
+<body class="bg">
+<div class="content">
+    <div class="text">
+        <h1>Wpływ teleporady
+            na jakość świadczonych
+            usług medycznych
+            w ocenie pacjentów
+        </h1>
+        <h2>Wyświetl wyniki przetwarzania danych z ankiety</h2>
+    </div>
+    <div class="buttons">
+        <a href="/statistics">
+            <button class="button" style="width:175px">Dane statystyczne</button>
+        </a>
+        <a href="/data_exploration">
+            <button class="button" style="width:175px">Eksploracja danych</button>
+        </a>
+    </div>
+
+</div>
+<div class="footer" style="position: fixed">
+            <p>Anna Bączyk IBM IwM 1 180489</p>
+        </div>
+</body>
+</html>

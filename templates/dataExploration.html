@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+<link rel="stylesheet" href="{% static 'results.css' %}"/>
+    <title>Teleporada | Ankieta</title>
+</head>
+<body class="bg">
+<div class="content">
+    <h1>Wyniki eksploracji danych</h1>
+    <h2>Korelacja Pearsona</h2>
+    <p>Korelacja Pearsona zawiera informację, w jakim stopniu zmienne są zależne od siebie.<br/>Zakres wartości:
+        <br/>1 - zmienne są wprost proporcjonalne
+        <br/>0 - brak korelacji
+        <br/>-1 - zmienne są odwrotnie proporcjonalne</p>
+    <img src="{% static "/img/correlation.jpg" %}" alt="Korelacja Pearsona"/>
+    <p>Z wykresu można odczytać, że największa korelacja występuje między tym, czy instrukcje przekazane od lekarza były
+        jasne, a tym, czy problem został rozwiązany podczas teleporady.</p>
+    <br/>
+    <h2>Algorytm Apriori</h2>
+    <p>Algorytm ten stanowi iteracyjne podejście do odkrywania najczęściej występujących zestawów odpowiedzi.
+        Wykorzystywane są 2 określenia: wsparcie i ufność wzorca. Wsparcie określa prawdopodobieństwo wystąpnienia 2
+        elementów jednocześnie, zaś ufność mówi o prawdopodobieństwie, że jeżeli występuje element 1, to wystąpi także
+        element 2.</p>
+    <p>Przykładowe wyniki dla algorytmu Apriori:</p>
+    <ul>
+        <li>
+            Miejsce zamieszkania: Mniej niż 10 mieszkańców -> Termin teleporady: W ciągu 3 dni
+            <ul>
+                <li>Wsparcie: 0.02</li>
+                <li>Ufność: 1.0</li>
+            </ul>
+        </li>
+        <li>
+            Zatrudnienie: Bezrobotny -> Cel teleporady: Skierowanie do specjalisty
+            <ul>
+                <li>Wsparcie: 0.03</li>
+                <li>Ufność: 0.75</li>
+            </ul>
+        </li>
+        <li>
+            Cel teleporady: Otrzymanie recepty -> Wykształcenie: Zasadnicze zawodowe
+            <ul>
+                <li>Wsparcie: 0.02</li>
+                <li>Ufność: 1.0</li>
+            </ul>
+        </li>
+    </ul>
+    <h2>Drzewo decyzyjne</h2>
+    <p>W metodzie tej sprawdzono, jakie czynniki najbardziej wpływają na preferowaną formę usługi medycznej. Cechy
+        najbardziej różnicujące klasy znajdują się bliżej korzenia drzewa decyzyjnego.</p>
+    <img src="{% static "img/graph_decision_tree.png" %}" alt="Drzewo decyzyjne"/>
+    <p>Z drzewa można odczytać, że dla otrzymanych danych najbardziej różnicującą cechą jest utrzymanie teleporady jako
+        standardu.</p>
+    <p>Odnotowano skuteczność klasyfikacji równą 78.57%. Poniżej przedstawiono macierz błędów:</p>
+    <img src="{% static "img/Confusion matrix - decision tree.png" %}" class="matrix"
+         alt="Macierz błędów - drzewo decyzyjne"/>
+    <p>Zaobserwowano, że klasyfikacja osób preferujących wizytę stacjonarną jest skuteczniejsza niż w przypadku osób
+        preferujących teleporadę. Wskazuje na to mały odsetek, gdzie zamiast wizyty przyporządkowano teleporadę.</p>
+    <h2>Lasy losowe</h2>
+    <p>Lasy losowe to wiele drzew decyzyjnych, które razem podejmują decyzję o klasyfikacji. Końcowa decyzja jest
+        podejmowana w wyniku głosowania więekszosciowego nad klasami wskazanymi przez poszczególne drzewa decyzyjne.</p>
+    <p>Poszczególne drzewa decyzyjne:</p>
+    <div class="slides">
+        <img class="slide" src="{% static "img/graph_random_forest_0.png" %}" style="width:100%">
+        <img class="slide" src="{% static "img/graph_random_forest_1.png" %}" style="width:100%">
+        <img class="slide" src="{% static "img/graph_random_forest_2.png" %}" style="width:100%">
+        <button class="prev" onclick="plusDivs(-1)">&#10094;</button>
+        <button class="next" onclick="plusDivs(1)">&#10095;</button> <!--poprawic przyciski-->
+    </div>
+    <script>
+        var slideIndex = 1;
+        showDivs(slideIndex);
+
+        function plusDivs(n) {
+            showDivs(slideIndex += n);
+        }
+
+        function showDivs(n) {
+            var i;
+            var x = document.getElementsByClassName("slide");
+            if (n > x.length) {
+                slideIndex = 1
+            }
+            if (n < 1) {
+                slideIndex = x.length
+            }
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            x[slideIndex - 1].style.display = "block";
+        }
+    </script>
+    <p>Dla lasów losowych skuteczność klasyfikacji to 89.29%. Poniżej przedstawiono macierz błędów:</p>
+    <img src="{% static "img/Confusion matrix - random forest.png" %}" class="matrix"
+         alt="Macierz błędów - lasy losowe"/>
+    <p>W porównaniu do drzew decyzyjnych odsetek błędnych
+        klasyfikacji jest znacznie mniejszy.</p>
+    <div class="buttons">
+        <button class="button" onclick="history.back()">Wstecz</button>
+    </div>
+</div>
+<div class="footer">
+    <p>Anna Bączyk IBM IwM 1 180489</p>
+</div>
+</body>
+</html>
