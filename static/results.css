@@ -210,4 +210,11 @@ and (orientation: portrait) {
     h1 {
         font-size: 70px;
     }
+
+    .button,
+    .buttonBack {
+        font-size: 16px;
+        padding: 16px;
+        border-radius: 20px;
+    }
 }
