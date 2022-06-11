@@ -2,10 +2,13 @@
 Plik zawierajacy przetwarzanie zadan"""
 
 from datetime import datetime
-
+import pandas as pd
+from plotly.offline import plot
+import plotly.express as px
 from django.shortcuts import render, redirect
 from .forms import GeneralForm, PatientForm, DoctorForm, AllGroupsForm
 from .models import Patient, General, Doctor, AllGroups
+
 
 def main(request):
     """Generowanie strony glownej"""
@@ -13,11 +16,40 @@ def main(request):
         return render(request, 'chooseResults.html')
     return render(request, 'main.html')
 
+
 def statistics(request):
-    return render(request, 'statistics.html')
+    """Wyswietlanie statystyk odnosnie danych"""
+    df = pd.read_csv('static/all_data.csv')
+
+    graphs = [get_graph(df, 'gender', 'Płeć:'), get_graph(df, 'age', 'Wiek'),
+              get_graph(df, 'residence', 'Miejsce zamieszkania:'), get_graph(df, 'education', 'Wykształcenie:'),
+              get_graph(df, 'employment', 'Status zatrudnienia:'),
+              get_graph(df, 'purposeOfEConsultation', 'Cel teleporady:'),
+              get_graph(df, 'whenWasEConsultation', 'Termin teleporady:'),
+              get_graph(df, 'freqOfVisits', 'Częstość wizyt w POZ:'),
+              get_graph(df, 'isProblemResolved', 'Czy problem został rozwiązany podczas teleporady?'),
+              get_graph(df, 'wasVisitProposed', 'Czy została zaproponowana wizyta stacjonarna?'),
+              get_graph(df, 'wereInstructionsClear', 'Czy instrukcje były jasne?'),
+              get_graph(df, 'wasDoctorEngaged', 'Czy lekarz był zaangażowany?'),
+              get_graph(df, 'eConsultationVsVisit', 'Teleporada czy wizyta stacjonarna?')]
+    context = {'plot_div': graphs}
+    return render(request, 'statistics.html', context=context)
+
+
+def get_graph(df, name, title):
+    """Utworzenie wykresow"""
+    labels = df[name].value_counts().index
+    values = df[name].value_counts().values
+    fig = px.pie(data_frame=df, values=values, names=labels, title=title,
+                 color_discrete_sequence=px.colors.sequential.RdBu_r)
+    pie_plot = plot(fig, output_type="div")
+    return pie_plot
+
 
 def data_exploration(request):
+    "Wyswietlanie wynikow eksploracji danych"
     return render(request, 'dataExploration.html')
+
 
 def getSession(request):
     """Tworzenie klucza sesji"""
@@ -105,9 +137,3 @@ def allGroups(request):
 def thankYou(request):
     """Wyswietlanie podziekowania za wypelnienie ankiety"""
     return render(request, 'thankYou.html')
-
-
-
-
-
-
