@@ -31,6 +31,7 @@
 
 .slide {
     display: flex;
+    width:100%;
 }
 
 a:link {
@@ -116,12 +117,6 @@ textarea {
     font-size: 12px;
     color: #324EC4;
     text-align: center;
-}
-
-.plotly-graph-div {
-    display: inline-block;
-    vertical-align: top;
-    width: 50%;
 }
 
 .image {
