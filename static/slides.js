@@ -30,6 +30,7 @@ prevBtn.addEventListener('click', () => {
 
 //Zapetlenie odtwarzania zdjec
 slide.addEventListener('transitionend', () => {
+    console.log(counter);
     if(images[counter].id === 'lastClone'){
          slide.style.transition = "none";
          counter = images.length - 2;
