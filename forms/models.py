@@ -1,4 +1,4 @@
-"""Anna Baczyk 180849, Bartosz Czapla 181486
+"""Anna Baczyk 180849
 Plik zawierajacy informacje o polach w bazie danych"""
 
 from django.db import models

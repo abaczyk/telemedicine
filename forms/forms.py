@@ -1,4 +1,4 @@
-"""# Anna Baczyk 180849, Bartosz Czapla 181486
+""" Anna Baczyk 180849
 Plik umozliwiajacy tworzenie pol w poszczegolnych ankietach"""
 
 from crispy_forms.bootstrap import FormActions

@@ -1,4 +1,4 @@
-"""Anna Baczyk 180849, Bartosz Czapla 181486
+"""Anna Baczyk 180849
 Plik zawierajacy przetwarzanie zadan"""
 
 from datetime import datetime
@@ -47,7 +47,7 @@ def get_graph(df, name, title):
 
 
 def data_exploration(request):
-    "Wyswietlanie wynikow eksploracji danych"
+    """Wyswietlanie wynikow eksploracji danych"""
     return render(request, 'dataExploration.html')
 
 

@@ -1,4 +1,4 @@
-"""Anna Baczyk 180849, Bartosz Czapla 181486
+"""Anna Baczyk 180849
 Plik umozliwiajacy utworzenie strony glownej i podstron"""
 
 from django.urls import path

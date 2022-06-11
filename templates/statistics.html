@@ -21,6 +21,14 @@
             {% endfor %}
         {% endautoescape %}
     {% endblock content %}
+<h2>Korelacja Pearsona</h2>
+    <p>Korelacja Pearsona zawiera informację, w jakim stopniu zmienne są zależne od siebie.<br/>Zakres wartości:
+        <br/>1 - zmienne są wprost proporcjonalne
+        <br/>0 - brak korelacji
+        <br/>-1 - zmienne są odwrotnie proporcjonalne</p>
+    <img src="{% static "img/correlation.jpg" %}" class="image" alt="Korelacja Pearsona"/>
+    <p>Z wykresu można odczytać, że największa korelacja występuje między tym, czy instrukcje przekazane od lekarza były
+        jasne, a tym, czy problem został rozwiązany podczas teleporady.</p>
     <div class="buttons">
         <button class="button" onclick="location.href='../'">Wstecz</button>
     </div>
