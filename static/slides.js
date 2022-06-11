@@ -1,15 +1,15 @@
-const slide = document.querySelector('.slide')
-const images = document.querySelectorAll('.slide img')
+const slide = document.querySelector('.slide');
+const images = document.querySelectorAll('.slide img');
 
 //Przyciski
-const prevBtn = document.querySelector('#prevBtn')
-const nextBtn = document.querySelector('#nextBtn')
+const prevBtn = document.querySelector('#prevBtn');
+const nextBtn = document.querySelector('#nextBtn');
 
 //Licznik
 let counter = 1;
 const size = images[0].clientWidth;
 
-slide.style.transform = 'translateX(' + (-size * counter) + 'px)'
+slide.style.transform = 'translateX(' + (-size * counter) + 'px)';
 
 //Listenery dla przyciskow
 nextBtn.addEventListener('click', () => {
@@ -21,7 +21,7 @@ nextBtn.addEventListener('click', () => {
 });
 
 prevBtn.addEventListener('click', () => {
-    if(counter <=0)
+    if(counter <= 0)
         return;
     slide.style.transition = "transform 0.3s ease-in-out";
     counter--;
@@ -41,3 +41,4 @@ slide.addEventListener('transitionend', () => {
          slide.style.transform = 'translateX(' + (-size * counter) + 'px)';
     }
 });
+
