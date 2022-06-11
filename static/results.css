@@ -14,29 +14,37 @@
     box-sizing: border-box;
 }
 
-.custom-control-input {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-
-    border-radius: 50%;
-    width: 16px;
-    height: 16px;
-
-    border: 2px solid #999;
-    transition: 0.05s all linear;
-    margin-right: 5px;
-
-    position: relative;
-    top: 4px;
-}
 
 .matrix {
     width: 60%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.Slides {
-    display: none;
+.carousel-container {
+    width: 100%;
+    margin: auto;
+    overflow: hidden;
+    position: relative;
+}
+
+.slide {
+    display: flex;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a:hover {
+    color: #283e9b;
+    font-weight: bold;
+}
+
+a:active {
+    color: #283e9b;
+    font-weight: bold;
 }
 
 .content {
@@ -61,9 +69,33 @@ h1 {
     line-height: normal;
     color: #283e9b;
 }
-h2{
+
+h2 {
     text-align: center;
 }
+
+#prevBtn {
+    position: absolute;
+    top: 44%;
+    z-index: 10;
+    left: 3%;
+    font-size: 30px;
+    color: black;
+    opacity: 0.4;
+    cursor: pointer;
+}
+
+#nextBtn {
+    position: absolute;
+    top: 44%;
+    z-index: 10;
+    right: 3%;
+    font-size: 30px;
+    color: black;
+    opacity: 0.4;
+    cursor: pointer;
+}
+
 textarea {
     width: 100%;
     height: 150px;
@@ -86,7 +118,13 @@ textarea {
     text-align: center;
 }
 
-img {
+.plotly-graph-div {
+    display: inline-block;
+    vertical-align: top;
+    width: 50%;
+}
+
+.image {
     display: block;
     margin-left: auto;
     margin-right: auto;
