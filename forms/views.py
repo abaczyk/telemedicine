@@ -20,7 +20,6 @@ def main(request):
 def statistics(request):
     """Wyswietlanie statystyk odnosnie danych"""
     df = pd.read_csv('static/all_data.csv')
-
     graphs = [get_graph(df, 'gender', 'Płeć:'), get_graph(df, 'age', 'Wiek'),
               get_graph(df, 'residence', 'Miejsce zamieszkania:'), get_graph(df, 'education', 'Wykształcenie:'),
               get_graph(df, 'employment', 'Status zatrudnienia:'),

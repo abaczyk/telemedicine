@@ -15,7 +15,7 @@ slide.style.transform = 'translateX(' + (-size * counter) + 'px)';
 
 //Listenery dla przyciskow
 nextBtn.addEventListener('click', () => {
-    if(counter >= images.length - 1)
+    if (counter >= images.length - 1)
         return;
     slide.style.transition = "transform 0.3s ease-in-out";
     counter++;
@@ -23,7 +23,7 @@ nextBtn.addEventListener('click', () => {
 });
 
 prevBtn.addEventListener('click', () => {
-    if(counter <= 0)
+    if (counter <= 0)
         return;
     slide.style.transition = "transform 0.3s ease-in-out";
     counter--;
@@ -32,15 +32,15 @@ prevBtn.addEventListener('click', () => {
 
 //Zapetlenie odtwarzania zdjec
 slide.addEventListener('transitionend', () => {
-    if(images[counter].id === 'lastClone'){
-         slide.style.transition = "none";
-         counter = images.length - 2;
-         slide.style.transform = 'translateX(' + (-size * counter) + 'px)';
+    if (images[counter].id === 'lastClone') {
+        slide.style.transition = "none";
+        counter = images.length - 2;
+        slide.style.transform = 'translateX(' + (-size * counter) + 'px)';
     }
-    if(images[counter].id === 'firstClone'){
-         slide.style.transition = "none";
-         counter = images.length - counter;
-         slide.style.transform = 'translateX(' + (-size * counter) + 'px)';
+    if (images[counter].id === 'firstClone') {
+        slide.style.transition = "none";
+        counter = images.length - counter;
+        slide.style.transform = 'translateX(' + (-size * counter) + 'px)';
     }
 });
 

@@ -104,7 +104,7 @@ class PatientForm(forms.ModelForm):
                                                    choices=options,
                                                    widget=forms.RadioSelect)
     isProblemResolved = forms.ChoiceField(label='Czy problem zdrowotny zgłoszony przez Pana/Panią drogą teleporady '
-                                                'był w większości przypadku rozwiązany?',
+                                                'był w większości przypadków rozwiązany?',
                                           choices=options,
                                           widget=forms.RadioSelect)
     wasVisitProposed = forms.ChoiceField(label='Czy w sytuacji, gdy teleporada nie rozwiązała w pełni Pana/Pani '
