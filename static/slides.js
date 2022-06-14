@@ -1,5 +1,6 @@
 /** Anna Bączyk 180489
  Przewijanie grafow dla lasow losowych */
+//slides.js
 const slide = document.querySelector('.slide');
 const images = document.querySelectorAll('.slide img');
 

@@ -23,14 +23,14 @@
     <p>Przykładowe wyniki dla algorytmu Apriori:</p>
     <ul>
         <li>
-            Miejsce zamieszkania: Mniej niż 10 mieszkańców -> Termin teleporady: W ciągu 3 dni
+            Termin teleporady: W ciągu 3 dni -> Miejsce zamieszkania: Mniej niż 10 mieszkańców
             <ul>
                 <li>Wsparcie: 0.02</li>
                 <li>Ufność: 1.0</li>
             </ul>
         </li>
         <li>
-            Zatrudnienie: Bezrobotny -> Cel teleporady: Skierowanie do specjalisty
+             Cel teleporady: Skierowanie do specjalisty -> Zatrudnienie: Bezrobotny
             <ul>
                 <li>Wsparcie: 0.03</li>
                 <li>Ufność: 0.75</li>
@@ -63,11 +63,11 @@
         <i class="fas fa-arrow-left" id="prevBtn"></i>
         <i class="fas fa-arrow-right" id="nextBtn"></i>
         <div class="slide">
-            <img src="{% static "img/graph_random_forest_2.png" %}" class="image" id="lastClone" alt="">
-            <img src="{% static "img/graph_random_forest_0.png" %}" class="image" alt="">
-            <img src="{% static "img/graph_random_forest_1.png" %}" class="image" alt="">
-            <img src="{% static "img/graph_random_forest_2.png" %}" class="image" alt="">
-            <img src="{% static "img/graph_random_forest_0.png" %}" class="image" id="firstClone" alt="">
+            <img src="{% static "img/graph_random_forest_2.png" %}" class="image" id="lastClone" alt=""/>
+            <img src="{% static "img/graph_random_forest_0.png" %}" class="image" alt=""/>
+            <img src="{% static "img/graph_random_forest_1.png" %}" class="image" alt=""/>
+            <img src="{% static "img/graph_random_forest_2.png" %}" class="image" alt=""/>
+            <img src="{% static "img/graph_random_forest_0.png" %}" class="image" id="firstClone" alt=""/>
         </div>
     </div>
     <script src="{% static "slides.js" %}"></script>

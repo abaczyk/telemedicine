@@ -399,7 +399,7 @@ class DoctorForm(forms.ModelForm):
         if not data.isdigit():
             raise ValidationError('Wpisana wartość nie jest liczbą naturalną')
         else:
-            if int(data) < 0 or int(data) > 100:  # sprawdzenie czy liczba miesci sie w zakresie 0 - 100
+            if int(data) < 0 or int(data) > 100:  # sprawdzenie, czy liczba miesci sie w zakresie 0 - 100
                 raise ValidationError('Wpisana wartość jest spoza zakresu 0-100')
         return data
 
